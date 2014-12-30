@@ -3,13 +3,18 @@ require "digest"
 module WssAgent
   class Specifications
 
-    def self.list
-      new(Bundler.load.specs).call
+    class << self
+      def specs
+        Bundler.load.specs
+      end
 
-    end
+      def list
+        new(specs).call
+      end
 
-    def self.sync
-      { status: :ok, response: 'success' }
+      def sync
+        { status: :ok, response: 'success' }
+      end
     end
 
     def initialize(gem_specs)

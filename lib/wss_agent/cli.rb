@@ -14,6 +14,9 @@ module WssAgent
       ap results
     rescue Bundler::GemfileNotFound => ex
       ap ex.message
+    rescue Bundler::GemNotFound => ex
+      ap ex.message
+      ap "Could you execute 'bundle install' before"
     end
 
     desc 'sync', 'sync list dependencies with server'
