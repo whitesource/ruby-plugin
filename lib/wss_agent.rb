@@ -4,8 +4,8 @@ require "awesome_print"
 require 'yaml'
 require "wss_agent/version"
 require "wss_agent/specifications"
+require "wss_agent/configure"
 require "wss_agent/cli"
-
 
 module WssAgent
   # Your code goes here...
