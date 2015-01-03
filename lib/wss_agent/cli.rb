@@ -23,8 +23,7 @@ module WssAgent
 
     desc 'sync', 'sync list dependencies with server'
     def sync
-      ap Specifications.sync
+      Specifications.sync
     end
-
   end
 end

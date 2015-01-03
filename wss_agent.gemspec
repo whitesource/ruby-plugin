@@ -19,6 +19,8 @@ Gem::Specification.new do |spec|
     'lib/wss_agent/cli.rb',
     'lib/wss_agent/specifications.rb',
     'lib/wss_agent/configure.rb',
+    'lib/wss_agent/response.rb',
+    'lib/wss_agent/client.rb',
     'lib/config/default.yml'
   ]
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -29,8 +31,12 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "pry"
+  spec.add_development_dependency 'rspec', '~> 3.1.0'
+  spec.add_development_dependency 'webmock', '~> 1.20.4'
   spec.add_dependency 'thor', '~> 0.19', '>= 0.19.1'
+  spec.add_dependency 'excon', '~> 0.42.1'
   spec.add_dependency 'faraday', '~> 0.9', '>= 0.9.0'
+  spec.add_dependency 'faraday_middleware', '~> 0.9', '>= 0.9.1'
   spec.add_dependency 'awesome_print', '~> 1.6', '>= 1.6.0'
   spec.add_dependency 'oj', '~> 2.11', '>= 2.11.1'
 end

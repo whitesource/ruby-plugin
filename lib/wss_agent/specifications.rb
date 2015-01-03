@@ -13,7 +13,13 @@ module WssAgent
       end
 
       def sync
-        { status: :ok, response: 'success' }
+        wss_client = WssAgent::Client.new
+        result = wss_client.request(WssAgent::Specifications.list)
+        if result.success?
+          puts "gems has been successfully synced"
+        else
+          puts "synchronization errors occur: status: #{result.status}, message: #{result.message}"
+        end
       end
     end
 
@@ -33,7 +39,7 @@ module WssAgent
           'children' => '',
           'exclusions' => ''
         }
-      end
+      end.compact
     end
 
     def gem_sha1(spec)

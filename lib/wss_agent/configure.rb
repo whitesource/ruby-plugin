@@ -10,12 +10,12 @@ module WssAgent
         File.join(File.expand_path('../..', __FILE__), 'config', DEFAULT_CONFIG_FILE)
       end
 
+      def exist_default_config?
+        File.exist?(default_path)
+      end
+
       def default
-        if File.exist?(default_path)
-          YAML.load(File.read(default_path))
-        else
-          { }
-        end
+        exist_default_config? ? YAML.load(File.read(default_path)) : {}
       end
 
       def current_path
@@ -23,10 +23,31 @@ module WssAgent
       end
 
       def current
-        if defined?(Bundler) && File.exist?(current_path)
-          YAML.load(File.read(current_path))
+        @config ||=
+          if defined?(Bundler) && File.exist?(current_path)
+            YAML.load(File.read(current_path))
+          else
+            default
+          end
+      end
+
+      def url
+        @url = current['url']
+        if @url.nil? || @url == ''
+          ap "Can't find api url, please make sure you input your whitesource API url in the wss_agent.yml file."
+          exit 1
+        end
+        @url
+      end
+
+      def token
+        #"Can't find Token, please make sure you input your whitesource API token in the wss_agent.yml file."
+
+        if current['token'].nil? || (current['token'] == '') || (current['token'] == default['token'])
+          ap "Can't find Token, please make sure you input your whitesource API token in the wss_agent.yml file."
+          exit 1
         else
-          default
+          current['token']
         end
       end
     end
