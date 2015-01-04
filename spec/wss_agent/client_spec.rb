@@ -13,6 +13,10 @@ describe WssAgent::Client  do
 
   let(:wss_client) { WssAgent::Client.new }
 
+  before do
+    allow(WssAgent::Configure).to receive_messages(token: 'xxxxxx')
+  end
+
   describe 'send gems to server' do
 
     context 'success' do
