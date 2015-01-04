@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Maxim Pechnikov"]
   spec.email         = ["parallel588@gmail.com"]
   spec.summary       = %q{White Source agent.}
-  spec.description   = %q{White Source agent.}
-  spec.homepage      = ""
-  spec.license       = "MIT"
+  spec.description   = %q{White Source agent to sync gems}
+  spec.homepage      = "https://github.com/whitesource/ruby-plugin"
+  spec.license       = "Apache License 2.0"
 
   spec.files         = [
     'lib/wss_agent.rb',
@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
     'lib/wss_agent/configure.rb',
     'lib/wss_agent/response.rb',
     'lib/wss_agent/client.rb',
+    'lib/wss_agent/gem_sha1.rb',
     'lib/config/default.yml'
   ]
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
@@ -30,9 +31,9 @@ Gem::Specification.new do |spec|
   spec.executables   = %w(wss_agent)
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "pry"
-  spec.add_development_dependency 'rspec', '~> 3.1.0'
-  spec.add_development_dependency 'webmock', '~> 1.20.4'
+  spec.add_development_dependency "pry", '~> 0.10', '>= 0.10.1'
+  spec.add_development_dependency 'rspec', '~> 3.1', '>= 3.1.0'
+  spec.add_development_dependency 'webmock', '~> 1.20', '>= 1.20.4'
   spec.add_dependency 'thor', '~> 0.19', '>= 0.19.1'
   spec.add_dependency 'excon', '~> 0.42.1'
   spec.add_dependency 'faraday', '~> 0.9', '>= 0.9.0'
