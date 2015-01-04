@@ -4,6 +4,9 @@ module WssAgent
     DEFAULT_CONFIG_FILE = 'default.yml'
     CURRENT_CONFIG_FILE = 'wss_agent.yml'
 
+    extend SingleForwardable
+    def_delegator :current, :[]
+
     class << self
 
       def default_path
@@ -24,7 +27,7 @@ module WssAgent
 
       def current
         if defined?(Bundler) && File.exist?(current_path)
-          YAML.load(File.read(current_path))
+          default.merge(YAML.load(File.read(current_path)))
         else
           default
         end

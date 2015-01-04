@@ -1,3 +1,8 @@
 ---
 url: http://saas.whitesourcesoftware.com
-token: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx  
+type: UPDATE
+token: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+agent: generic
+agent_version: 1.0
+product: ''
+product_version: ''

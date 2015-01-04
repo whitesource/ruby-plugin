@@ -17,20 +17,19 @@ module WssAgent
 
     def default_params
       {
-        type: 'UPDATE',
-        agent: 'generic',
-        agentVersion: '1.0',
-        token: Configure.token
+        type: Configure['type'],
+        agent: Configure['agent'],
+        agentVersion: Configure['agent_version'],
+        token: Configure.token,
+        product: Configure['product'].to_s,
+        productVersion: Configure['product_version'].to_s
       }
     end
 
     def diff(gem_list)
       Oj.dump([{
                  dependencies: gem_list,
-                 coordinates: {
-                   artifactId: 'Demo Project',
-                   version: '0.0.1'
-                 }
+                 coordinates: { artifactId: '', version: '' }
                }])
     end
 
