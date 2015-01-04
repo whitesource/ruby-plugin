@@ -19,33 +19,28 @@ module WssAgent
       end
 
       def current_path
-        Bundler.root.join(CURRENT_CONFIG_FILE)
+        Bundler.root.join(CURRENT_CONFIG_FILE).to_s
       end
 
       def current
-        @config ||=
-          if defined?(Bundler) && File.exist?(current_path)
-            YAML.load(File.read(current_path))
-          else
-            default
-          end
+        if defined?(Bundler) && File.exist?(current_path)
+          YAML.load(File.read(current_path))
+        else
+          default
+        end
       end
 
       def url
         @url = current['url']
         if @url.nil? || @url == ''
-          ap "Can't find api url, please make sure you input your whitesource API url in the wss_agent.yml file."
-          exit 1
+          raise ApiUrlNotFound, "Can't find api url, please make sure you input your whitesource API url in the wss_agent.yml file."
         end
         @url
       end
 
       def token
-        #"Can't find Token, please make sure you input your whitesource API token in the wss_agent.yml file."
-
         if current['token'].nil? || (current['token'] == '') || (current['token'] == default['token'])
-          ap "Can't find Token, please make sure you input your whitesource API token in the wss_agent.yml file."
-          exit 1
+          raise TokenNotFound, "Can't find Token, please make sure you input your whitesource API token in the wss_agent.yml file."
         else
           current['token']
         end

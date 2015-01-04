@@ -21,9 +21,11 @@ module WssAgent
       ap "Could you execute 'bundle install' before"
     end
 
-    desc 'sync', 'sync list dependencies with server'
-    def sync
-      Specifications.sync
+    desc 'update', 'update list dependencies with server'
+    def update
+      Specifications.update
+    rescue => ex
+      ap ex.message
     end
   end
 end

@@ -24,12 +24,19 @@ module WssAgent
       }
     end
 
+    def diff(gem_list)
+      Oj.dump([{
+                 dependencies: gem_list,
+                 coordinates: {
+                   artifactId: 'Demo Project',
+                   version: '0.0.1'
+                 }
+               }])
+    end
+
     def payload(gem_list)
       default_params
-        .merge({
-                 timeStamp: Time.now.to_i,
-                 diff: Oj.dump(gem_list)
-               })
+        .merge({ timeStamp: Time.now.to_i, diff: diff(gem_list) })
     end
 
     def request(gem_list)
