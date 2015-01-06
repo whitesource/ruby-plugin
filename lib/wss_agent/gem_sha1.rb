@@ -6,6 +6,25 @@ module WssAgent
 
     def initialize(spec)
       @spec = spec
+      check_version!
+    end
+
+    # check version
+    # if version isn't found get latest version
+    #
+    def check_version!
+      conn = Faraday.new(url: 'https://rubygems.org') do |h|
+        h.headers[:content_type] = 'application/x-www-form-urlencoded'
+        h.request :url_encoded
+        h.adapter :excon
+      end
+      response = conn.get("/api/v1/versions/#{spec.name}.json")
+      versions = Oj.load(response.body)
+      unless versions.detect { |j| j['number'] == spec.version }
+        spec.version = versions.first['number']
+      end
+    rescue
+
     end
 
     def sha1
@@ -44,7 +63,6 @@ module WssAgent
         if response.code == '200'
           return Digest::SHA1.hexdigest(response.body)
         end
-
       else # gem isn't found
         ''
       end
@@ -52,5 +70,7 @@ module WssAgent
     rescue Timeout::Error
       retry_request ? nil : remote_file(true)
     end
+
+
   end
 end

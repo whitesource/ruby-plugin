@@ -10,9 +10,10 @@ module WssAgent
 
     desc 'list', 'display list dependencies'
     method_options all: :boolean
+    method_options excludes: :string
 
     def list
-      results = Specifications.list
+      results = Specifications.list(options)
       ap results
     rescue Bundler::GemfileNotFound => ex
       ap ex.message
