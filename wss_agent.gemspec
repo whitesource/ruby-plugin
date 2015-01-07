@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry", '~> 0.10', '>= 0.10.1'
   spec.add_development_dependency 'rspec', '~> 3.1', '>= 3.1.0'
   spec.add_development_dependency 'webmock', '~> 1.20', '>= 1.20.4'
+  spec.add_development_dependency 'timecop', '~> 0.7', '>= 0.7.1'
   spec.add_dependency 'thor', '~> 0.19', '>= 0.19.1'
   spec.add_dependency 'excon', '~> 0.42.1'
   spec.add_dependency 'faraday', '~> 0.9', '>= 0.9.0'

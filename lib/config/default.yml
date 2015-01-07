@@ -3,6 +3,6 @@ url: http://saas.whitesourcesoftware.com
 type: UPDATE
 token: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 agent: generic
-agent_version: 1.0
+agent_version: '1.0'
 product: ''
 product_version: ''

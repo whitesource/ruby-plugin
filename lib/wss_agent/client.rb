@@ -15,17 +15,6 @@ module WssAgent
       @connection
     end
 
-    def default_params
-      {
-        type: Configure['type'],
-        agent: Configure['agent'],
-        agentVersion: Configure['agent_version'],
-        token: Configure.token,
-        product: Configure['product'].to_s,
-        productVersion: Configure['product_version'].to_s
-      }
-    end
-
     def diff(gem_list)
       Oj.dump([{
                  dependencies: gem_list,
@@ -34,8 +23,16 @@ module WssAgent
     end
 
     def payload(gem_list)
-      default_params
-        .merge({ timeStamp: Time.now.to_i, diff: diff(gem_list) })
+      {
+        type: Configure['type'],
+        agent: Configure['agent'],
+        agentVersion: Configure['agent_version'],
+        token: Configure.token,
+        product: Configure['product'].to_s,
+        productVersion: Configure['product_version'].to_s,
+        timeStamp: Time.now.to_i,
+        diff: diff(gem_list)
+      }
     end
 
     def request(gem_list)

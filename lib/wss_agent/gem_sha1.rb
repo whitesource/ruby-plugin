@@ -6,7 +6,7 @@ module WssAgent
 
     def initialize(spec)
       @spec = spec
-      check_version!
+      check_version! unless @spec.version > Gem::Version.new('0')
     end
 
     # check version
@@ -37,6 +37,8 @@ module WssAgent
         Digest::SHA1.hexdigest(File.read(path))
       when spec.source.is_a?(Bundler::Source::Path)
         # ????
+      when spec.source.nil?
+        remote_file
       end
 
     rescue => ex

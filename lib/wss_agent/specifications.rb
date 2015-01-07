@@ -29,14 +29,15 @@ module WssAgent
 
       # Send gem list to server
       #
-      def update
+      def update(options = {})
         wss_client = WssAgent::Client.new
-        result = wss_client.request(WssAgent::Specifications.list)
+        result = wss_client.request(WssAgent::Specifications.list(options))
         if result.success?
           puts "gems has been successfully synced"
         else
           puts "synchronization errors occur: status: #{result.status}, message: #{result.message}"
         end
+        result.success?
       end
 
       # Get all dependencies includes development

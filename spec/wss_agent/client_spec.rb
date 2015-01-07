@@ -17,7 +17,51 @@ describe WssAgent::Client  do
     allow(WssAgent::Configure).to receive_messages(token: 'xxxxxx')
   end
 
-  describe 'send gems to server' do
+
+  describe '#payload' do
+
+    it 'shoudl return request params' do
+      Timecop.freeze(Time.now) do
+        payload = {
+          type: "UPDATE",
+          agent: "generic",
+          agentVersion: "1.0",
+          token: "xxxxxx",
+          product: "",
+          productVersion: "",
+          timeStamp: Time.now.to_i,
+          diff: "[{\":dependencies\":{},\":coordinates\":{\":artifactId\":\"\",\":version\":\"\"}}]"
+        }
+
+        expect(wss_client.payload({})).to eq(payload)
+      end
+    end
+  end
+
+  describe '#diff' do
+    let(:diff) {
+      "[{\":dependencies\":[{\"groupId\":\"bacon\",\"artifactId\":\"bacon-1.2.0.gem\",\"version\":\"1.2.0\",\"sha1\":\"xxxxxxxxxxxxxxxxxxxxxxx\",\"optional\":\"\",\"children\":\"\",\"exclusions\":\"\"}],\":coordinates\":{\":artifactId\":\"\",\":version\":\"\"}}]"
+    }
+    let(:gem_list) {
+      [
+        {
+          'groupId' => 'bacon',
+			    'artifactId' => 'bacon-1.2.0.gem',
+			    'version' => '1.2.0',
+          'sha1' => 'xxxxxxxxxxxxxxxxxxxxxxx',
+          'optional' => '',
+          'children' => '',
+          'exclusions' => ''
+        }
+      ]
+    }
+    it 'should diff of gem list' do
+      expect(wss_client.diff(gem_list)).to eq(diff)
+    end
+  end
+
+
+  describe '#request' do
 
     context 'success' do
       before do

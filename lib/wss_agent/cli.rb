@@ -23,8 +23,11 @@ module WssAgent
     end
 
     desc 'update', 'update list dependencies with server'
+    method_options all: :boolean
+    method_options excludes: :string
+
     def update
-      Specifications.update
+      Specifications.update(options)
     rescue => ex
       ap ex.message
     end

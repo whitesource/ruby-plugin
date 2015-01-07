@@ -4,7 +4,12 @@ describe WssAgent::Configure  do
   let(:default_config) {
     {
       'url' => 'http://saas.whitesourcesoftware.com',
-      'token'=>'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+      'type' => 'UPDATE',
+      'token'=>'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+      'agent' => 'generic',
+      'agent_version' => '1.0',
+      'product' => '',
+      'product_version' => ''
     }
   }
 
@@ -35,10 +40,8 @@ describe WssAgent::Configure  do
   describe '.current' do
     context 'when locally config is not found' do
       it 'should return default config' do
-        expect(WssAgent::Configure.current).to eq({
-                                                    'url' => 'http://saas.whitesourcesoftware.com',
-                                                    'token' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
-                                                  })
+        allow(WssAgent::Configure).to receive(:current_path).and_return('miss.yml')
+        expect(WssAgent::Configure.current).to eq(default_config)
       end
     end
     context 'when locally config is found' do
@@ -48,8 +51,13 @@ describe WssAgent::Configure  do
       end
       it 'should return locally config' do
         expect(WssAgent::Configure.current).to eq({
-                                                    'url' => 'http://saas.whitesourcesoftware.com',
-                                                    'token' => '11111111-1111-1111-1111-111111111112'
+                                                    "url" => "http://saas.whitesourcesoftware.com",
+                                                    "type" => "UPDATE",
+                                                    "token" => "11111111-1111-1111-1111-111111111112",
+                                                    "agent" => "generic",
+                                                    "agent_version" => "1.0",
+                                                    "product" => "Test product",
+                                                    "product_version" => "1.0.1"
                                                   })
       end
     end
@@ -91,6 +99,46 @@ describe WssAgent::Configure  do
       it 'should return token' do
         expect(WssAgent::Configure.token).to eq('11111111-1111-1111-1111-111111111111')
       end
+    end
+  end
+
+  describe '.type' do
+    it 'should be "UPDATE"' do
+      expect(WssAgent::Configure['type']).to eq('UPDATE')
+    end
+  end
+
+  describe '.agent' do
+    it 'should be "generic"' do
+      expect(WssAgent::Configure['agent']).to eq('generic')
+    end
+  end
+
+  describe '.agent_version' do
+    it 'should be "1.0"' do
+      expect(WssAgent::Configure['agent_version']).to eq('1.0')
+    end
+  end
+
+  describe '.product' do
+    before do
+      allow(WssAgent::Configure).to receive(:current_path)
+                                     .and_return(File.join(File.expand_path('../..', __FILE__), 'fixtures/wss_agent.yml'))
+    end
+
+    it 'should be "Test product"' do
+      expect(WssAgent::Configure['product']).to eq('Test product')
+    end
+  end
+
+  describe '.product_version' do
+    before do
+      allow(WssAgent::Configure).to receive(:current_path)
+                                     .and_return(File.join(File.expand_path('../..', __FILE__), 'fixtures/wss_agent.yml'))
+    end
+
+    it 'should be "1.0.1"' do
+      expect(WssAgent::Configure['product_version']).to eq('1.0.1')
     end
   end
 end
