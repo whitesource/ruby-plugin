@@ -6,3 +6,6 @@ agent: generic
 agent_version: '1.0'
 product: ''
 product_version: ''
+coordinates:
+  artifact_id: ''
+  version: ''

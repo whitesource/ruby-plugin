@@ -17,9 +17,8 @@ module WssAgent
 
     def diff(gem_list)
       Oj.dump([{
-                 dependencies: gem_list,
-                 coordinates: { artifactId: '', version: '' }
-               }])
+                 'coordinates' => { 'artifactId' => 'wss_agent', 'version' => '0.0.3' },
+                 'dependencies' => gem_list}])
     end
 
     def payload(gem_list)

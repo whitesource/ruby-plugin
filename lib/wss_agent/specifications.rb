@@ -102,9 +102,9 @@ module WssAgent
 			  'artifactId' => spec.file_name,
 			  'version' => spec.version.to_s,
         'sha1' => GemSha1.new(spec).sha1,
-        'optional' => '',
-        'children' => '',
-        'exclusions' => ''
+        'optional' => false,
+        'children' => [],
+        'exclusions' => []
       }
     end
 
