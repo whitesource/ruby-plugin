@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
     'lib/wss_agent/response.rb',
     'lib/wss_agent/client.rb',
     'lib/wss_agent/gem_sha1.rb',
+    'lib/wss_agent/project.rb',
     'lib/config/default.yml'
   ]
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

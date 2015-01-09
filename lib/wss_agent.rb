@@ -12,6 +12,7 @@ require 'wss_agent/cli'
 require 'wss_agent/response'
 require 'wss_agent/client'
 require 'wss_agent/gem_sha1'
+require 'wss_agent/project'
 
 
 module WssAgent

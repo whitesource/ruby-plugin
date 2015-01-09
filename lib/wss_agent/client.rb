@@ -1,8 +1,6 @@
 module WssAgent
   class Client
 
-    API_PATH = '/agent'
-
     attr_accessor :connection
 
     def initialize
@@ -17,8 +15,9 @@ module WssAgent
 
     def diff(gem_list)
       Oj.dump([{
-                 'coordinates' => { 'artifactId' => 'wss_agent', 'version' => '0.0.3' },
-                 'dependencies' => gem_list}])
+                 'coordinates' => Configure.coordinates,
+                 'dependencies' => gem_list
+               }])
     end
 
     def payload(gem_list)
@@ -35,7 +34,7 @@ module WssAgent
     end
 
     def request(gem_list)
-      Response.new(connection.post(API_PATH, payload(gem_list)))
+      Response.new(connection.post(WssAgent::Configure.api_path, payload(gem_list)))
     rescue Faraday::Error::ClientError => ex
       Response.new(ex)
     end

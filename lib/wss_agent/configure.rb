@@ -3,6 +3,7 @@ module WssAgent
 
     DEFAULT_CONFIG_FILE = 'default.yml'
     CURRENT_CONFIG_FILE = 'wss_agent.yml'
+    API_PATH = '/agent'
 
     extend SingleForwardable
     def_delegator :current, :[]
@@ -33,12 +34,23 @@ module WssAgent
         end
       end
 
-      def url
+      def uri
         @url = current['url']
         if @url.nil? || @url == ''
           raise ApiUrlNotFound, "Can't find api url, please make sure you input your whitesource API url in the wss_agent.yml file."
         end
-        @url
+        URI(@url)
+      end
+
+      def url
+        @uri = uri
+        [@uri.scheme, @uri.host].join('://')
+      end
+
+      def api_path
+        @uri = uri
+        @url_path = @uri.path
+        @url_path == "" ? API_PATH : @url_path
       end
 
       def token
@@ -47,6 +59,22 @@ module WssAgent
         else
           current['token']
         end
+      end
+
+      def coordinates
+        project_meta = WssAgent::Project.new
+        coordinates_config = current['coordinates']
+        coordinates_artifact_id = coordinates_config['artifact_id']
+        coordinates_version = coordinates_config['version']
+
+        if coordinates_artifact_id.nil? || coordinates_artifact_id == ''
+          coordinates_artifact_id = project_meta.project_name
+          coordinates_version = project_meta.project_version
+        end
+        {
+          'artifactId' => coordinates_artifact_id,
+          'version' => coordinates_version
+        }
       end
     end
   end
