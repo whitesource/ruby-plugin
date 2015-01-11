@@ -1,31 +1,38 @@
-# WssAgent
+**WhiteSource bundle plugin**
 
-TODO: Write a gem description
+    __          ___     _ _        _____                          _
+    \ \        / / |   (_) |      / ____|                        | |
+     \ \  /\  / /| |__  _| |_ ___| (___   ___  _   _ _ __ ___ ___| |
+      \ \/  \/ / | '_ \| | __/ _ \\___ \ / _ \| | | | '__/ __/ _ \ |
+       \  /\  /  | | | | | ||  __/____) | (_) | |_| | | | (_|  __/_|
+        \/  \/   |_| |_|_|\__\___|_____/ \___/ \__,_|_|  \___\___(_)
 
-## Installation
 
-Add this line to your application's Gemfile:
 
-```ruby
-gem 'wss_agent'
+
+
+
+More about the White Source service : [http://www.whitesourcesoftware.com/](http://www.whitesourcesoftware.com/)
+
+
+
+## Getting Started:
+
+### 1) Install WhiteSource gem.
+```bash
+$ gem install wss_agent
 ```
 
-And then execute:
 
-    $ bundle
+### 2) Initial configuration
+```bash
+$ wss_agent config
+```
 
-Or install it yourself as:
+add your token in 'wss_agent.yml' file in your project root directory
 
-    $ gem install wss_agent
 
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it ( https://github.com/[my-github-username]/wss_agent/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+### 3) update dependencies
+```bash
+$ wss_agent update
+```
