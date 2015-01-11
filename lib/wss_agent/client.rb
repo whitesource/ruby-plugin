@@ -34,6 +34,8 @@ module WssAgent
     end
 
     def request(gem_list)
+      WssAgent.logger.debug "request params: #{payload(gem_list)}"
+
       Response.new(connection.post(WssAgent::Configure.api_path, payload(gem_list)))
     rescue Faraday::Error::ClientError => ex
       Response.new(ex)

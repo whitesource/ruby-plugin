@@ -5,6 +5,7 @@ require 'yaml'
 require 'oj'
 require 'faraday'
 require 'faraday_middleware'
+require 'yell'
 require 'wss_agent/version'
 require 'wss_agent/specifications'
 require 'wss_agent/configure'
@@ -26,4 +27,12 @@ module WssAgent
 
   class TokenNotFound       < WssAgentError; status_code(10) ; end
   class ApiUrlNotFound      < WssAgentError; status_code(11) ; end
+
+  def self.logger
+    @logger ||= Yell.new STDOUT, level: [:info]
+  end
+
+  def self.enable_debug!
+    @logger ||= Yell.new STDOUT, level: [:debug, :info, :warn, :error, :fatal, :unknown]
+  end
 end

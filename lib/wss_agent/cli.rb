@@ -11,8 +11,9 @@ module WssAgent
     desc 'list', 'display list dependencies'
     method_options all: :boolean
     method_options excludes: :string
-
+    method_option :verbose, :aliases => "-v", :desc => "Be verbose"
     def list
+      WssAgent.enable_debug! if options['verbose']
       results = Specifications.list(options)
       ap results
     rescue Bundler::GemfileNotFound => ex
@@ -25,8 +26,9 @@ module WssAgent
     desc 'update', 'update list dependencies with server'
     method_options all: :boolean
     method_options excludes: :string
-
+    method_option :verbose, :aliases => "-v", :desc => "Be verbose"
     def update
+      WssAgent.enable_debug! if options['verbose']
       Specifications.update(options)
     rescue => ex
       ap ex.message

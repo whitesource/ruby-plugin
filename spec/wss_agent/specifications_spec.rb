@@ -25,8 +25,8 @@ describe WssAgent::Specifications  do
     it 'should update list gems on server' do
       Timecop.freeze(Time.now) do
         stub_request(:post, "http://saas.whitesourcesoftware.com/agent").
-          with(:body => {"agent"=>"generic", "agentVersion"=>"1.0", "diff"=>"[{\":dependencies\":[{\"groupId\":\"bacon\",\"artifactId\":\"bacon-1.2.0.gem\",\"version\":\"1.2.0\",\"sha1\":\"xxxxxxxxxxxxxxxxxxxxxxx\",\"optional\":\"\",\"children\":\"\",\"exclusions\":\"\"}],\":coordinates\":{\":artifactId\":\"\",\":version\":\"\"}}]", "product"=>"", "productVersion"=>"", "timeStamp"=>"#{Time.now.to_i}", "token"=>"xxxxxx", "type"=>"UPDATE"},
-               :headers => {'Content-Type'=>'application/x-www-form-urlencoded', 'Host'=>'saas.whitesourcesoftware.com:80', 'User-Agent'=>'Faraday v0.9.0'}).
+          with(:body => {"agent"=>"generic", "agentVersion"=>"1.0", "diff"=>"[{\"coordinates\":{\"artifactId\":\"wss_agent\",\"version\":\"0.0.4\"},\"dependencies\":[{\"groupId\":\"bacon\",\"artifactId\":\"bacon-1.2.0.gem\",\"version\":\"1.2.0\",\"sha1\":\"xxxxxxxxxxxxxxxxxxxxxxx\",\"optional\":\"\",\"children\":\"\",\"exclusions\":\"\"}]}]", "product"=>"", "productVersion"=>"", "timeStamp"=>"#{Time.now.to_i}", "token"=>"xxxxxx", "type"=>"UPDATE"},
+               :headers => {'Content-Type'=>'application/x-www-form-urlencoded', 'Host'=>'saas.whitesourcesoftware.com:80', 'User-Agent'=>'Faraday v0.9.1'}).
           to_return(:status => 200, :body => success_response, :headers => {})
 
 
@@ -46,8 +46,8 @@ describe WssAgent::Specifications  do
                                                     "artifactId"=>"bacon-1.2.0.gem",
                                                     "version"=>"1.2.0",
                                                     "sha1"=>"85b19b68a33f1dc0e147ff08bad66f7cfc52de36",
-                                                    "optional"=>"",
-                                                    "children"=>"", "exclusions"=>""}])
+                                                    "optional"=>false,
+                                                    "children"=>[], "exclusions"=>[]}])
     end
   end
 

@@ -33,19 +33,16 @@ module WssAgent
         path = spec.source.send(:cached_gem, spec).to_s
         Digest::SHA1.hexdigest(File.read(path))
       when spec.source.is_a?(Bundler::Source::Git)
-        path = spec.source.send(:cached_gem, spec).to_s
-        Digest::SHA1.hexdigest(File.read(path))
+      # ???
       when spec.source.is_a?(Bundler::Source::Path)
-        # ????
+      # ????
       when spec.source.nil?
         remote_file
       end
 
     rescue => ex
-      if ENV['DEBUG']
-        puts ex
-        puts spec
-      end
+      WssAgent.logger.debug "#{ex.message}"
+      WssAgent.logger.debug "#{spec}"
       remote_file
     end
 
@@ -53,6 +50,8 @@ module WssAgent
       URI("http://rubygems.org/gems/#{spec.file_name}")
     end
 
+    # download gem from rubygems
+    #
     def remote_file(retry_request = false)
       response = Net::HTTP.get_response(remote_file_url)
 
@@ -72,7 +71,6 @@ module WssAgent
     rescue Timeout::Error
       retry_request ? nil : remote_file(true)
     end
-
 
   end
 end

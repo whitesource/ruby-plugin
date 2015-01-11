@@ -3,13 +3,14 @@ require 'spec_helper'
 describe WssAgent::Configure  do
   let(:default_config) {
     {
-      'url' => 'http://saas.whitesourcesoftware.com',
+      'url' => 'http://saas.whitesourcesoftware.com/agent',
       'type' => 'UPDATE',
       'token'=>'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
       'agent' => 'generic',
       'agent_version' => '1.0',
       'product' => '',
-      'product_version' => ''
+      'product_version' => '',
+      'coordinates' => {"artifact_id"=>"", "version"=>""}
     }
   }
 
@@ -56,6 +57,7 @@ describe WssAgent::Configure  do
                                                     "token" => "11111111-1111-1111-1111-111111111112",
                                                     "agent" => "generic",
                                                     "agent_version" => "1.0",
+                                                    "coordinates" => {"artifact_id"=>"", "version"=>""},
                                                     "product" => "Test product",
                                                     "product_version" => "1.0.1"
                                                   })
