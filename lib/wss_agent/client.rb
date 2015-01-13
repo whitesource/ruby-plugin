@@ -5,6 +5,7 @@ module WssAgent
 
     def initialize
       @connection ||= Faraday.new(url: Configure.url) do |h|
+        h.port = Configure.port
         h.headers[:content_type] = 'application/x-www-form-urlencoded'
         h.request :url_encoded
         h.adapter :excon

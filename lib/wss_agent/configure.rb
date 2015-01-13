@@ -42,6 +42,10 @@ module WssAgent
         URI(@url)
       end
 
+      def port
+        uri.port || 80
+      end
+
       def url
         @uri = uri
         [@uri.scheme, @uri.host].join('://')
