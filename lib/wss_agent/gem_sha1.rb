@@ -31,7 +31,7 @@ module WssAgent
       case
       when spec.source.is_a?(Bundler::Source::Rubygems)
         path = spec.source.send(:cached_gem, spec).to_s
-        Digest::SHA1.hexdigest(File.read(path))
+        Digest::SHA1.hexdigest(File.binread(path))
       when spec.source.is_a?(Bundler::Source::Git)
       # ???
       when spec.source.is_a?(Bundler::Source::Path)
