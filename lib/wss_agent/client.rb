@@ -21,9 +21,8 @@ module WssAgent
                }])
     end
 
-    def payload(gem_list)
+    def payload(gem_list, options = {})
       {
-        type: Configure['type'],
         agent: Configure['agent'],
         agentVersion: Configure['agent_version'],
         token: Configure.token,
@@ -31,13 +30,21 @@ module WssAgent
         productVersion: Configure['product_version'].to_s,
         timeStamp: Time.now.to_i,
         diff: diff(gem_list)
-      }
+      }.merge(options)
     end
 
-    def request(gem_list)
-      WssAgent.logger.debug "request params: #{payload(gem_list)}"
+    def update(gem_list)
+      request(gem_list, { type: Configure['type'] })
+    end
 
-      Response.new(connection.post(WssAgent::Configure.api_path, payload(gem_list)))
+    def check_policies(gem_list)
+      request(gem_list, { type: 'CHECK_POLICIES' })
+    end
+
+    def request(gem_list, options = {})
+      WssAgent.logger.debug "request params: #{payload(gem_list, options)}"
+
+      Response.new(connection.post(WssAgent::Configure.api_path, payload(gem_list, options)))
     rescue Faraday::Error::ClientError => ex
       Response.new(ex)
     end

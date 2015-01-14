@@ -31,7 +31,18 @@ module WssAgent
       #
       def update(options = {})
         wss_client = WssAgent::Client.new
-        result = wss_client.request(WssAgent::Specifications.list(options))
+        result = wss_client.update(WssAgent::Specifications.list(options))
+        if result.success?
+          puts "gems has been successfully synced"
+        else
+          puts "synchronization errors occur: status: #{result.status}, message: #{result.message}"
+        end
+        result.success?
+      end
+
+      def check_policies(options = {})
+        wss_client = WssAgent::Client.new
+        result = wss_client.check_policies(WssAgent::Specifications.list(options))
         if result.success?
           puts "gems has been successfully synced"
         else

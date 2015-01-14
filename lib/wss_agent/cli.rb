@@ -23,7 +23,7 @@ module WssAgent
       ap "Could you execute 'bundle install' before"
     end
 
-    desc 'update', 'update list dependencies with server'
+    desc 'update', 'update open source inventory'
     method_options all: :boolean
     method_options excludes: :string
     method_option :verbose, :aliases => "-v", :desc => "Be verbose"
@@ -32,6 +32,13 @@ module WssAgent
       Specifications.update(options)
     rescue => ex
       ap ex.message
+    end
+
+    desc 'check_policies', 'checking dependencies that they conforms with company policy.'
+    method_option :verbose, :aliases => "-v", :desc => "Be verbose"
+    def check_policies
+      WssAgent.enable_debug! if options['verbose']
+      Specifications.check_policies(options)
     end
   end
 end

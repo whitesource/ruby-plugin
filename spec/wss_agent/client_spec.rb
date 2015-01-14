@@ -23,14 +23,13 @@ describe WssAgent::Client  do
     it 'should return request params' do
       Timecop.freeze(Time.now) do
         payload = {
-          type: "UPDATE",
           agent: "generic",
           agentVersion: "1.0",
           token: "xxxxxx",
           product: "",
           productVersion: "",
           timeStamp: Time.now.to_i,
-          diff: "[{\"coordinates\":{\"artifactId\":\"wss_agent\",\"version\":\"0.0.4\"},\"dependencies\":{}}]"
+          diff: "[{\"coordinates\":{\"artifactId\":\"wss_agent\",\"version\":\"#{WssAgent::VERSION}\"},\"dependencies\":{}}]"
         }
 
         expect(wss_client.payload({})).to eq(payload)
@@ -40,7 +39,7 @@ describe WssAgent::Client  do
 
   describe '#diff' do
     let(:diff) {
-      "[{\"coordinates\":{\"artifactId\":\"wss_agent\",\"version\":\"0.0.4\"},\"dependencies\":[{\"groupId\":\"bacon\",\"artifactId\":\"bacon-1.2.0.gem\",\"version\":\"1.2.0\",\"sha1\":\"xxxxxxxxxxxxxxxxxxxxxxx\",\"optional\":\"\",\"children\":\"\",\"exclusions\":\"\"}]}]"
+      "[{\"coordinates\":{\"artifactId\":\"wss_agent\",\"version\":\"#{WssAgent::VERSION}\"},\"dependencies\":[{\"groupId\":\"bacon\",\"artifactId\":\"bacon-1.2.0.gem\",\"version\":\"1.2.0\",\"sha1\":\"xxxxxxxxxxxxxxxxxxxxxxx\",\"optional\":\"\",\"children\":\"\",\"exclusions\":\"\"}]}]"
     }
     let(:gem_list) {
       [
