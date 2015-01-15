@@ -49,11 +49,9 @@ module WssAgent
     end
 
     def data
-      if success?
-        @data ||= Oj.load(response_data['data'])
-      else
-        nil
-      end
+      @data ||= Oj.load(response_data['data'])
+    rescue
+      nil
     end
   end
 end

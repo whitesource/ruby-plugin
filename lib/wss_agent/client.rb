@@ -2,6 +2,7 @@ module WssAgent
   class Client
 
     attr_accessor :connection
+    CHECK_POLICIES_TYPE = 'CHECK_POLICIES'
 
     def initialize
       @connection ||= Faraday.new(url: Configure.url) do |h|
@@ -38,7 +39,7 @@ module WssAgent
     end
 
     def check_policies(gem_list)
-      request(gem_list, { type: 'CHECK_POLICIES' })
+      request(gem_list, { type: CHECK_POLICIES_TYPE })
     end
 
     def request(gem_list, options = {})

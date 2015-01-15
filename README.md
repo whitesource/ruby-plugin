@@ -32,7 +32,31 @@ $ wss_agent config
 add your token in 'wss_agent.yml' file in your project root directory
 
 
-### 3) update dependencies
+### 3) update open source inventory
 ```bash
 $ wss_agent update
+```
+### 4) checking dependencies that they conforms with company policy.
+```bash
+$ wss_agent check_policies
+```
+
+## Debug
+
+
+### 1) show additional messages
+```bash
+$ wss_agent [command] -v
+```
+
+### 2) display http request
+
+#### linux
+```bash
+$ EXCON_DEBUG=true wss_agent [command]
+```
+
+#### windows
+```cmd
+$ SET EXCON_DEBUG=true &&  wss_agent [command]
 ```

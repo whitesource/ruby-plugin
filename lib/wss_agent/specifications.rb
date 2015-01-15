@@ -33,22 +33,25 @@ module WssAgent
         wss_client = WssAgent::Client.new
         result = wss_client.update(WssAgent::Specifications.list(options))
         if result.success?
-          puts "gems has been successfully synced"
+          ap "Done."
+          WssAgent.logger.debug result.data
         else
-          puts "synchronization errors occur: status: #{result.status}, message: #{result.message}"
+          ap "synchronization errors occur: status: #{result.status}, message: #{result.message}"
         end
         result.success?
       end
 
+      # checking dependencies that they conforms with company policy.
+      #
       def check_policies(options = {})
         wss_client = WssAgent::Client.new
         result = wss_client.check_policies(WssAgent::Specifications.list(options))
         if result.success?
-          puts "gems has been successfully synced"
+          ap "Done."
+          WssAgent.logger.debug result.data
         else
-          puts "synchronization errors occur: status: #{result.status}, message: #{result.message}"
+          ap "check policies errors occur: #{result.status}, message: #{result.message}, data: #{result.data}"
         end
-        result.success?
       end
 
       # Get all dependencies includes development
