@@ -40,5 +40,10 @@ module WssAgent
       WssAgent.enable_debug! if options['verbose']
       Specifications.check_policies(options)
     end
+
+    desc 'version', 'Agent version'
+    def version
+      puts WssAgent::VERSION
+    end
   end
 end

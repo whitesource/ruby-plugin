@@ -37,4 +37,11 @@ describe WssAgent::CLI  do
       expect(output).to eq("")
     end
   end
+
+  context 'version' do
+    let(:output) { capture(:stdout) { subject.version } }
+    it 'should display version' do
+      expect(output).to eq("#{WssAgent::VERSION}\n")
+    end
+  end
 end
