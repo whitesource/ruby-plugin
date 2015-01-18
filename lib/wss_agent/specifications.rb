@@ -6,6 +6,9 @@ module WssAgent
     class << self
       # Get dependencies
       #
+      # @param [Hash]
+      # @option options [Boolean] 'all' if true then get all dependencies (include development dependencies)
+      # @option options [String] 'excludes' list gem name which need to exclude from end list
       def specs(options = {})
         list_gems = Bundler.load.specs.to_a
         if options['all']
@@ -23,12 +26,14 @@ module WssAgent
 
       # Display list dependencies
       #
+      # @param (see Specifications#specs)
       def list(options = {})
         new(specs(options)).call
       end
 
       # Send gem list to server
       #
+      # @param (see Specifications#specs)
       def update(options = {})
         wss_client = WssAgent::Client.new
         result = wss_client.update(WssAgent::Specifications.list(options))
@@ -43,6 +48,7 @@ module WssAgent
 
       # checking dependencies that they conforms with company policy.
       #
+      # @param (see Specifications#specs)
       def check_policies(options = {})
         wss_client = WssAgent::Client.new
         result = wss_client.check_policies(WssAgent::Specifications.list(options))
@@ -56,6 +62,12 @@ module WssAgent
 
       # Get all dependencies includes development
       #
+      # @param [Array<Spec>] array for gems
+      # @param [Array<Dependencies>]
+      # @param [Hash]
+      # @options options [String] :excludes list gems to exclude
+      #
+      # @return [Array<Spec>] list
       def gem_dependencies(list, gem_dependencies, options = {})
         gem_dependencies.each do |gd|
           if options['excludes'] && options['excludes'].to_s.split(',').include?(gd.name)
@@ -86,6 +98,10 @@ module WssAgent
 
       # Load dependencies from rubygems
       #
+      # @param gem_name [String] name gem
+      # @params version [String] version gem
+      #
+      # @return [Array<Gem::Dependency>] list gem dependencies
       def remote_dependencies(gem_name, version)
         conn = Faraday.new(url: 'https://rubygems.org') do |h|
           h.headers[:content_type] = 'application/x-www-form-urlencoded'
@@ -97,7 +113,7 @@ module WssAgent
         dep_list['dependencies'].values.flatten.
           map { |j| Gem::Dependency.new(j['name'], Gem::Requirement.new(j['requirements'].split(','))) }
       end
-    end
+    end # end class << self
 
     def initialize(gem_specs)
       @gem_specs = gem_specs
@@ -105,7 +121,7 @@ module WssAgent
 
     def call
       @gem_specs.map do |spec|
-        next if spec.name == 'wss_agent'
+        next if spec.name == WssAgent::NAME
         gem_item(spec)
       end.compact
     end
@@ -121,7 +137,5 @@ module WssAgent
         'exclusions' => []
       }
     end
-
-
   end
 end

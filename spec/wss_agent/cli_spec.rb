@@ -28,6 +28,16 @@ describe WssAgent::CLI  do
   end
 
   context 'update' do
+    let(:output) { capture(:stdout) { subject.update } }
+    context 'when not found token' do
+      it 'should display error message' do
+        expect(output).to eq("\e[0;33m\"Can't find Token, please make sure you input your whitesource API token in the wss_agent.yml file.\"\e[0m\n")
+      end
+    end
+    it 'should display results' do
+      expect(WssAgent::Specifications).to receive(:update).and_return([])
+      expect(output).to eq("")
+    end
   end
 
   context 'check_policies' do
