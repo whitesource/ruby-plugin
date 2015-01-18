@@ -3,9 +3,10 @@ module WssAgent
 
     attr_accessor :connection
     CHECK_POLICIES_TYPE = 'CHECK_POLICIES'
+    REQUEST_TIMEOUT = 120
 
     def initialize
-      @connection ||= Faraday.new(url: Configure.url) do |h|
+      @connection ||= Faraday.new(Configure.url, { request: { timeout: REQUEST_TIMEOUT } }) do |h|
         h.port = Configure.port
         h.headers[:content_type] = 'application/x-www-form-urlencoded'
         h.request :url_encoded
