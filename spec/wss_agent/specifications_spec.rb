@@ -33,7 +33,7 @@ describe WssAgent::Specifications  do
 
 
         allow(WssAgent::Specifications).to receive(:list).and_return(gem_list)
-        expect(capture(:stdout) {WssAgent::Specifications.check_policies}).to eq("\e[0;33m\"Done.\"\e[0m\n")
+        expect(capture(:stdout) {WssAgent::Specifications.check_policies}).to eq("All dependencies conform with open source policies\n")
       end
     end
   end

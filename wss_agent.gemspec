@@ -20,6 +20,8 @@ Gem::Specification.new do |spec|
     'lib/wss_agent/specifications.rb',
     'lib/wss_agent/configure.rb',
     'lib/wss_agent/response.rb',
+    'lib/wss_agent/response_policies.rb',
+    'lib/wss_agent/response_inventory.rb',
     'lib/wss_agent/client.rb',
     'lib/wss_agent/gem_sha1.rb',
     'lib/wss_agent/project.rb',

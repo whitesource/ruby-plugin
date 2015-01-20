@@ -38,8 +38,8 @@ module WssAgent
         wss_client = WssAgent::Client.new
         result = wss_client.update(WssAgent::Specifications.list(options))
         if result.success?
-          ap "Done."
           WssAgent.logger.debug result.data
+          puts result.message
         else
           ap "synchronization errors occur: status: #{result.status}, message: #{result.message}"
         end
@@ -53,8 +53,8 @@ module WssAgent
         wss_client = WssAgent::Client.new
         result = wss_client.check_policies(WssAgent::Specifications.list(options))
         if result.success?
-          ap "Done."
           WssAgent.logger.debug result.data
+          puts result.message
         else
           ap "check policies errors occur: #{result.status}, message: #{result.message}, data: #{result.data}"
         end

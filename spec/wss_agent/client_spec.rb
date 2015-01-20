@@ -60,7 +60,7 @@ describe WssAgent::Client  do
   end
 
 
-  describe '#request' do
+  describe '#update' do
 
     context 'success' do
       before do
@@ -71,13 +71,13 @@ describe WssAgent::Client  do
 
       end
 
-      subject { wss_client.request(WssAgent::Specifications.list) }
+      subject { wss_client.update(WssAgent::Specifications.list) }
 
       it 'response should be success' do
         expect(subject).to be_success
       end
       it 'should return message response' do
-        expect(subject.message).to eq('ok')
+        expect(subject.message).to eq("White Source update results: \n  White Source organization: Tom Test \n  No new projects found \n\n  No projects were updated \n")
       end
       it 'should return status of response' do
         expect(subject.status).to eq(1)
@@ -99,7 +99,7 @@ describe WssAgent::Client  do
                     headers: {})
 
       end
-      subject { wss_client.request(WssAgent::Specifications.list) }
+      subject { wss_client.update(WssAgent::Specifications.list) }
       it 'response should be success' do
         expect(subject).to_not be_success
       end
@@ -119,7 +119,7 @@ describe WssAgent::Client  do
         stub_request(:post, "http://saas.whitesourcesoftware.com/agent").
           to_timeout
       end
-      subject { wss_client.request(WssAgent::Specifications.list) }
+      subject { wss_client.update(WssAgent::Specifications.list) }
       it 'response should be success' do
         expect(subject).to_not be_success
       end

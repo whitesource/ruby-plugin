@@ -51,7 +51,7 @@ module WssAgent
     def data
       @data ||= Oj.load(response_data['data'])
     rescue
-      response_data['data']
+      response_data && response_data.key?('data') ?  response_data['data'] : nil
     end
   end
 end

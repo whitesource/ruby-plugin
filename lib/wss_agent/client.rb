@@ -36,19 +36,19 @@ module WssAgent
     end
 
     def update(gem_list)
-      request(gem_list, { type: Configure['type'] })
+      ResponseInventory.new(request(gem_list, { type: Configure['type'] }))
     end
 
     def check_policies(gem_list)
-      request(gem_list, { type: CHECK_POLICIES_TYPE })
+      ResponsePolicies.new(request(gem_list, { type: CHECK_POLICIES_TYPE }))
     end
 
     def request(gem_list, options = {})
       WssAgent.logger.debug "request params: #{payload(gem_list, options)}"
 
-      Response.new(connection.post(WssAgent::Configure.api_path, payload(gem_list, options)))
+      connection.post(WssAgent::Configure.api_path, payload(gem_list, options))
     rescue Faraday::Error::ClientError => ex
-      Response.new(ex)
+      ex
     end
   end
 end
