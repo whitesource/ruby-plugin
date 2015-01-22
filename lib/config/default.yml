@@ -2,7 +2,7 @@
 url: http://saas.whitesourcesoftware.com/agent
 type: UPDATE
 token: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-agent: generic
+agent: bundler-plugin
 agent_version: '1.0'
 product: ''
 product_version: ''
