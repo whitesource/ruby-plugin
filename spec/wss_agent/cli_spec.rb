@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe WssAgent::CLI  do
+describe WssAgent::CLI, vcr: true  do
 
   let(:cli) { WssAgent::CLI.new }
   subject { cli }

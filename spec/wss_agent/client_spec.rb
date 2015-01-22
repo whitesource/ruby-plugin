@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe WssAgent::Client  do
+describe WssAgent::Client, vcr: true  do
   let(:bad_request_response) {
     {"envelopeVersion"=>"2.1.0", "status"=>2, "message"=>"Illegal arguments", "data"=>"Unsupported agent: null"}
   }

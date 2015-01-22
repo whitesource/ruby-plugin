@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'webmock', '~> 1.20', '>= 1.20.4'
   spec.add_development_dependency 'timecop', '~> 0.7', '>= 0.7.1'
   spec.add_development_dependency "yard", ">= 0.8"
+  spec.add_development_dependency 'vcr', '~> 2.9', '>= 2.9.3'
 
   spec.add_dependency 'thor', '~> 0.19', '>= 0.19.1'
   spec.add_dependency 'yell', '~> 2.0', '>= 2.0.5'
