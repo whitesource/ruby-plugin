@@ -1,6 +1,7 @@
 ---
 url: http://saas.whitesourcesoftware.com
 token: 11111111-1111-1111-1111-111111111112
+check_policies: false
 agent: bundler-plugin
 agent_version: '1.0'
 product: 'Test product'

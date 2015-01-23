@@ -36,6 +36,14 @@ module WssAgent
       # @param (see Specifications#specs)
       def update(options = {})
         wss_client = WssAgent::Client.new
+        if WssAgent::Configure['check_policies']
+          policy_results = wss_client.check_policies(WssAgent::Specifications.list(options))
+          if policy_results.success? && policy_results.policy_violations?
+            ap "check policies errors occur: #{policy_results.status}, message: #{policy_results.message}, data: #{policy_results.data}"
+            return false
+          end
+        end
+
         result = wss_client.update(WssAgent::Specifications.list(options))
         if result.success?
           WssAgent.logger.debug result.data
@@ -43,6 +51,7 @@ module WssAgent
         else
           ap "synchronization errors occur: status: #{result.status}, message: #{result.message}"
         end
+
         result.success?
       end
 

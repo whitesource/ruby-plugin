@@ -5,6 +5,7 @@ describe WssAgent::Configure  do
     {
       'url' => 'http://saas.whitesourcesoftware.com/agent',
       'token'=>'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+      "check_policies"=>false,
       'agent' => 'bundler-plugin',
       'agent_version' => '1.0',
       'product' => '',
@@ -37,6 +38,14 @@ describe WssAgent::Configure  do
     end
   end
 
+  describe '.check_policies' do
+    context 'default' do
+      it 'should be "false"' do
+        expect(WssAgent::Configure['check_policies']).to be false
+      end
+    end
+  end
+
   describe '.current' do
     context 'when locally config is not found' do
       it 'should return default config' do
@@ -53,6 +62,7 @@ describe WssAgent::Configure  do
         expect(WssAgent::Configure.current).to eq({
                                                     "url" => "http://saas.whitesourcesoftware.com",
                                                     "token" => "11111111-1111-1111-1111-111111111112",
+                                                    "check_policies" => false,
                                                     "agent" => "bundler-plugin",
                                                     "agent_version" => "1.0",
                                                     "coordinates" => {"artifact_id"=>"", "version"=>""},
