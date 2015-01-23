@@ -31,12 +31,22 @@ $ wss_agent config
 
 add your token in 'wss_agent.yml' file in your project root directory
 
+### 3) Command list
+```bash
+Commands:
+  wss_agent check_policies  # checking dependencies that they conforms with company policy.
+  wss_agent config          # create config file
+  wss_agent help [COMMAND]  # Describe available commands or one specific command
+  wss_agent list            # display list dependencies
+  wss_agent update          # update open source inventory
+  wss_agent version         # Agent version
+```
 
-### 3) update open source inventory
+### 4) update open source inventory
 ```bash
 $ wss_agent update
 ```
-### 4) checking dependencies that they conforms with company policy.
+### 5) checking dependencies that they conforms with company policy.
 ```bash
 $ wss_agent check_policies
 ```
