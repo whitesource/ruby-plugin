@@ -4,9 +4,8 @@ describe WssAgent::Configure  do
   let(:default_config) {
     {
       'url' => 'http://saas.whitesourcesoftware.com/agent',
-      'type' => 'UPDATE',
       'token'=>'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-      'agent' => 'generic',
+      'agent' => 'bundler-plugin',
       'agent_version' => '1.0',
       'product' => '',
       'product_version' => '',
@@ -53,9 +52,8 @@ describe WssAgent::Configure  do
       it 'should return locally config' do
         expect(WssAgent::Configure.current).to eq({
                                                     "url" => "http://saas.whitesourcesoftware.com",
-                                                    "type" => "UPDATE",
                                                     "token" => "11111111-1111-1111-1111-111111111112",
-                                                    "agent" => "generic",
+                                                    "agent" => "bundler-plugin",
                                                     "agent_version" => "1.0",
                                                     "coordinates" => {"artifact_id"=>"", "version"=>""},
                                                     "product" => "Test product",
@@ -104,15 +102,9 @@ describe WssAgent::Configure  do
     end
   end
 
-  describe '.type' do
-    it 'should be "UPDATE"' do
-      expect(WssAgent::Configure['type']).to eq('UPDATE')
-    end
-  end
-
   describe '.agent' do
-    it 'should be "generic"' do
-      expect(WssAgent::Configure['agent']).to eq('generic')
+    it 'should be "bundler-plugin"' do
+      expect(WssAgent::Configure['agent']).to eq('bundler-plugin')
     end
   end
 

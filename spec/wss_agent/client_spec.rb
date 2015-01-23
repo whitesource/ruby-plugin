@@ -23,7 +23,7 @@ describe WssAgent::Client, vcr: true  do
     it 'should return request params' do
       Timecop.freeze(Time.now) do
         payload = {
-          agent: "generic",
+          agent: "bundler-plugin",
           agentVersion: "1.0",
           token: "xxxxxx",
           product: "",

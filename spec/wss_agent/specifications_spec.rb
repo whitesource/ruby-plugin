@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe WssAgent::Specifications  do
+describe WssAgent::Specifications, vcr: true do
   before do
     allow(WssAgent::Configure).to receive_messages(token: 'xxxxxx')
   end

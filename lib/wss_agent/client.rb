@@ -3,6 +3,7 @@ module WssAgent
 
     attr_accessor :connection
     CHECK_POLICIES_TYPE = 'CHECK_POLICIES'
+    UPDATE_TYPE = 'UPDATE'
     REQUEST_TIMEOUT = 120
 
     def initialize
@@ -36,7 +37,7 @@ module WssAgent
     end
 
     def update(gem_list)
-      ResponseInventory.new(request(gem_list, { type: Configure['type'] }))
+      ResponseInventory.new(request(gem_list, { type: UPDATE_TYPE }))
     end
 
     def check_policies(gem_list)
