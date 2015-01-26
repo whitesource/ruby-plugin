@@ -2,6 +2,7 @@ module WssAgent
   class Configure
 
     DEFAULT_CONFIG_FILE = 'default.yml'
+    CUSTOM_DEFAULT_CONFIG_FILE = 'custom_default.yml'
     CURRENT_CONFIG_FILE = 'wss_agent.yml'
     API_PATH = '/agent'
 
@@ -12,6 +13,10 @@ module WssAgent
 
       def default_path
         File.join(File.expand_path('../..', __FILE__), 'config', DEFAULT_CONFIG_FILE)
+      end
+
+      def custom_default_path
+        File.join(File.expand_path('../..', __FILE__), 'config', CUSTOM_DEFAULT_CONFIG_FILE)
       end
 
       def exist_default_config?

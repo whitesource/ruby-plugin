@@ -3,7 +3,7 @@ module WssAgent
     desc "config", "create config file"
     def config
       File.open(File.join(Dir.pwd, Configure::CURRENT_CONFIG_FILE), 'w') do |f|
-        f << File.read(Configure.default_path)
+        f << File.read(Configure.custom_default_path)
       end
       ap 'created config file: wss_agent.yml'
     end

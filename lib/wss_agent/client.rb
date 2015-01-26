@@ -18,10 +18,14 @@ module WssAgent
     end
 
     def diff(gem_list)
-      Oj.dump([{
-                 'coordinates' => Configure.coordinates,
-                 'dependencies' => gem_list
-               }])
+      diff_data = [{
+                     'coordinates' => Configure.coordinates,
+                     'dependencies' => gem_list
+                   }]
+      if Configure['project_token']
+        diff_data['projectToken'] = Configure['project_token']
+      end
+      Oj.dump(diff_data)
     end
 
     def payload(gem_list, options = {})

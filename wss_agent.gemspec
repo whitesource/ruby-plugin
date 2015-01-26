@@ -13,20 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/whitesource/ruby-plugin"
   spec.license       = "Apache License 2.0"
 
-  spec.files         = [
-    'lib/wss_agent.rb',
-    'lib/wss_agent/version.rb',
-    'lib/wss_agent/cli.rb',
-    'lib/wss_agent/specifications.rb',
-    'lib/wss_agent/configure.rb',
-    'lib/wss_agent/response.rb',
-    'lib/wss_agent/response_policies.rb',
-    'lib/wss_agent/response_inventory.rb',
-    'lib/wss_agent/client.rb',
-    'lib/wss_agent/gem_sha1.rb',
-    'lib/wss_agent/project.rb',
-    'lib/config/default.yml'
-  ]
+  spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
