@@ -14,6 +14,7 @@
 
 More about the White Source service : [http://www.whitesourcesoftware.com/](http://www.whitesourcesoftware.com/)
 
+View documentation here: [http://docs.whitesourcesoftware.com/display/serviceDocs/Ruby+Plugin](http://docs.whitesourcesoftware.com/display/serviceDocs/Ruby+Plugin)
 
 
 ## Getting Started:

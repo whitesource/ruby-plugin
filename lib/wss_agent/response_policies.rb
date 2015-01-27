@@ -26,10 +26,10 @@ module WssAgent
         if policy_violations?
           @message = [
             'Some dependencies do not conform with open source policies',
-            'See list of violations:'
+            'List of violations:'
           ]
-          @message << policy_violations.map { |j|
-            "#{j['resource']['displayName']} : #{j['policy']['displayName']}"
+          @message << policy_violations.each_with_index.map { |j, i|
+            "#{i+1}. Package: #{j['resource']['displayName']} - #{j['policy']['displayName']}"
           }.join("\n")
           @message.join("\n")
         else

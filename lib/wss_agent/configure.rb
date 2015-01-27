@@ -42,7 +42,7 @@ module WssAgent
       def uri
         @url = current['url']
         if @url.nil? || @url == ''
-          raise ApiUrlNotFound, "Can't find api url, please make sure you input your whitesource API url in the wss_agent.yml file."
+          raise ApiUrlNotFound, "Can't find the url, please add your Whitesource url destination in the wss_agent.yml file."
         end
         URI(@url)
       end
@@ -64,7 +64,7 @@ module WssAgent
 
       def token
         if current['token'].nil? || (current['token'] == '') || (current['token'] == default['token'])
-          raise TokenNotFound, "Can't find Token, please make sure you input your whitesource API token in the wss_agent.yml file."
+          raise TokenNotFound, "Can't find Token, please add your Whitesource API token in the wss_agent.yml file"
         else
           current['token']
         end

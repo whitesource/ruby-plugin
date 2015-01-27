@@ -5,7 +5,7 @@ require 'rubygems'
 begin
   require 'bundler'
 rescue LoadError
-  abort("must be installed bundler")
+  abort("Bundler must be installed")
 end
 
 require 'wss_agent'
