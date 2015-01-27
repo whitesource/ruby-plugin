@@ -8,7 +8,7 @@ describe WssAgent::CLI, vcr: true  do
   context 'config' do
     let(:output) { capture(:stdout) { subject.config } }
     it "should create config file" do
-      expect(output).to include("created config file: wss_agent.yml")
+      expect(output).to include("Created the config file: wss_agent.yml")
     end
   end
 
@@ -31,7 +31,7 @@ describe WssAgent::CLI, vcr: true  do
     let(:output) { capture(:stdout) { subject.update } }
     context 'when not found token' do
       it 'should display error message' do
-        expect(output).to eq("\e[0;33m\"Can't find Token, please make sure you input your whitesource API token in the wss_agent.yml file.\"\e[0m\n")
+        expect(output).to eq("\e[0;33m\"Can't find Token, please add your Whitesource API token in the wss_agent.yml file\"\e[0m\n")
       end
     end
     it 'should display results' do

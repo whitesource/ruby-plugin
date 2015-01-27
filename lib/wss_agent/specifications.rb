@@ -39,7 +39,7 @@ module WssAgent
         if WssAgent::Configure['check_policies']
           policy_results = wss_client.check_policies(WssAgent::Specifications.list(options))
           if policy_results.success? && policy_results.policy_violations?
-            ap "check policies errors occur: #{policy_results.status}, message: #{policy_results.message}, data: #{policy_results.data}"
+            puts policy_results.message
             return false
           end
         end
