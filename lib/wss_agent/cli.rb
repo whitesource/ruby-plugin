@@ -17,10 +17,10 @@ module WssAgent
       results = Specifications.list(options)
       ap results
     rescue Bundler::GemfileNotFound => ex
-      ap ex.message
+      ap ex.message, color: { string: :red }
     rescue Bundler::GemNotFound => ex
-      ap ex.message
-      ap "Could you execute 'bundle install' before"
+      ap ex.message, color: { string: :red }
+      ap "Could you execute 'bundle install' before", color: { string: :red }
     end
 
     desc 'update', 'update open source inventory'
@@ -31,7 +31,7 @@ module WssAgent
       WssAgent.enable_debug! if options['verbose']
       Specifications.update(options)
     rescue => ex
-      ap ex.message
+      ap ex.message, color: { string: :red }
     end
 
     desc 'check_policies', 'checking dependencies that they conforms with company policy.'

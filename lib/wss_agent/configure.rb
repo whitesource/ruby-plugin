@@ -32,11 +32,17 @@ module WssAgent
       end
 
       def current
-        if defined?(Bundler) && File.exist?(current_path)
-          default.merge(YAML.load(File.read(current_path)))
-        else
-          default
+        unless File.exist?(current_path)
+          return raise NotFoundConfigFile, "Config file isn't exist. Could you please run 'wss_agent config' before."
         end
+
+        @current_config = YAML.load(File.read(current_path))
+
+       unless !!@current_config
+          return raise InvalidConfigFile, "Problem reading wss_agent.yml, please check the file is a valid YAML"
+        end
+
+        default.merge(@current_config)
       end
 
       def uri
@@ -45,6 +51,9 @@ module WssAgent
           raise ApiUrlNotFound, "Can't find the url, please add your Whitesource url destination in the wss_agent.yml file."
         end
         URI(@url)
+
+      rescue URI::Error
+        raise ApiUrlInvalid, "Api url is invalid. Could you please check url in wss_agent.yml"
       end
 
       def port

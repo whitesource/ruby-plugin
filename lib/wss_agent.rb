@@ -27,8 +27,11 @@ module WssAgent
     end
   end
 
+  class NotFoundConfigFile  < WssAgentError; status_code(8) ; end
+  class InvalidConfigFile   < WssAgentError; status_code(9) ; end
   class TokenNotFound       < WssAgentError; status_code(10) ; end
   class ApiUrlNotFound      < WssAgentError; status_code(11) ; end
+  class ApiUrlInvalid       < WssAgentError; status_code(12) ; end
 
   def self.logger
     @logger ||= Yell.new STDOUT, level: [:info]

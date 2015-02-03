@@ -49,7 +49,8 @@ module WssAgent
           WssAgent.logger.debug result.data
           puts result.message
         else
-          ap "synchronization errors occur: status: #{result.status}, message: #{result.message}"
+          WssAgent.logger.debug "synchronization errors occur: status: #{result.status}, message: #{result.message}, data: #{result.data}"
+          ap "error: #{result.status}/#{result.data}", color: {string: :red }
         end
 
         result.success?
@@ -65,7 +66,8 @@ module WssAgent
           WssAgent.logger.debug result.data
           puts result.message
         else
-          ap "check policies errors occur: #{result.status}, message: #{result.message}, data: #{result.data}"
+          WssAgent.logger.debug "check policies errors occur: #{result.status}, message: #{result.message}, data: #{result.data}"
+          ap "error: #{result.status}/#{result.data}", color: {string: :red }
         end
       end
 
