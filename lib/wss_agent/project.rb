@@ -13,11 +13,10 @@ module WssAgent
     end
 
     def project_version
-      case
-      when is_gem?
+      if is_gem?
         gem.version.to_s
       else
-        '0.0.0'
+        ''
       end
     end
 
