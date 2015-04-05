@@ -30,9 +30,9 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'thor', '~> 0.19', '>= 0.19.1'
   spec.add_dependency 'yell', '~> 2.0', '>= 2.0.5'
-  spec.add_dependency 'excon', '~> 0.42.1'
+  spec.add_dependency 'excon', '~> 0.45.1'
   spec.add_dependency 'faraday', '~> 0.9', '>= 0.9.1'
   spec.add_dependency 'faraday_middleware', '~> 0.9', '>= 0.9.1'
-  spec.add_dependency 'awesome_print', '~> 1.6', '>= 1.6.0'
+  spec.add_dependency 'awesome_print', '~> 1.6', '>= 1.6.1'
   spec.add_dependency 'oj', '~> 2.11', '>= 2.11.2'
 end

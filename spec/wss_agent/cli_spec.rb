@@ -31,7 +31,7 @@ describe WssAgent::CLI, vcr: true  do
     let(:output) { capture(:stdout) { subject.update } }
     context 'when not found token' do
       it 'should display error message' do
-        expect(output).to eq("\e[0;33m\"Can't find Token, please add your Whitesource API token in the wss_agent.yml file\"\e[0m\n")
+        expect(output).to eq("\e[1;31m\"Can't find Token, please add your Whitesource API token in the wss_agent.yml file\"\e[0m\n")
       end
     end
     it 'should display results' do

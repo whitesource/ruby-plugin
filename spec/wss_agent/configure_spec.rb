@@ -47,12 +47,6 @@ describe WssAgent::Configure  do
   end
 
   describe '.current' do
-    context 'when locally config is not found' do
-      it 'should return default config' do
-        allow(WssAgent::Configure).to receive(:current_path).and_return('miss.yml')
-        expect(WssAgent::Configure.current).to eq(default_config)
-      end
-    end
     context 'when locally config is found' do
       before do
         allow(WssAgent::Configure).to receive(:current_path)

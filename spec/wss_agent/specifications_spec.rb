@@ -116,7 +116,7 @@ describe WssAgent::Specifications, vcr: true do
       allow_any_instance_of(WssAgent::GemSha1).to receive(:sha1).and_return("85b19b68a33f1dc0e147ff08bad66f7cfc52de36")
 
       load_specs = double(specs: Bundler::SpecSet.new([Gem::Specification.new('bacon', '1.2.0')]))
-      allow(Bundler).to receive(:load).and_return(load_specs)
+      allow(Bundler::Definition).to receive(:build).and_return(load_specs)
       expect(WssAgent::Specifications.list).to eq([{"groupId"=>"bacon",
                                                     "artifactId"=>"bacon-1.2.0.gem",
                                                     "version"=>"1.2.0",
@@ -130,7 +130,7 @@ describe WssAgent::Specifications, vcr: true do
     it 'load bundle spec' do
       specs_double = double
       expect(specs_double).to receive(:specs).and_return([])
-      expect(Bundler).to receive(:load).and_return(specs_double)
+      expect(Bundler::Definition).to receive(:build).and_return(specs_double)
       WssAgent::Specifications.specs
     end
   end

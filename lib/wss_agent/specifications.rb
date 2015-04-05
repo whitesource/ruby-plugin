@@ -10,7 +10,7 @@ module WssAgent
       # @option options [Boolean] 'all' if true then get all dependencies (include development dependencies)
       # @option options [String] 'excludes' list gem name which need to exclude from end list
       def specs(options = {})
-        list_gems = Bundler.load.specs.to_a
+        list_gems = Bundler::Definition.build(Bundler.default_gemfile, Bundler.default_lockfile, false).specs.to_a
         if options['all']
           # get all gems
           list = {}
