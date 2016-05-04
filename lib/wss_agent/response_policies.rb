@@ -5,7 +5,7 @@ module WssAgent
     def parse_response
       if response.success?
         begin
-          @response_data = Oj.load(response.body)
+          @response_data = MultiJson.load(response.body)
           @status = @response_data['status'].to_i
           @message = @response_data['message']
           check_new_projects

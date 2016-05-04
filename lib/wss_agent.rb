@@ -2,7 +2,6 @@ require 'thor'
 require 'net/http'
 require 'awesome_print'
 require 'yaml'
-require 'oj'
 require 'faraday'
 require 'faraday_middleware'
 require 'yell'
@@ -16,7 +15,7 @@ require 'wss_agent/response_inventory'
 require 'wss_agent/client'
 require 'wss_agent/gem_sha1'
 require 'wss_agent/project'
-
+require 'multi_json'
 
 module WssAgent
   # Your code goes here...
