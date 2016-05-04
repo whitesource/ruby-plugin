@@ -19,8 +19,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.executables   = %w(wss_agent)
-  spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "bundler", "~> 1.8.5"
   spec.add_development_dependency "pry", '~> 0.10', '>= 0.10.1'
   spec.add_development_dependency 'rspec', '~> 3.1', '>= 3.1.0'
   spec.add_development_dependency 'webmock', '~> 1.20', '>= 1.20.4'
@@ -34,5 +34,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'faraday', '~> 0.9', '>= 0.9.1'
   spec.add_dependency 'faraday_middleware', '~> 0.9', '>= 0.9.1'
   spec.add_dependency 'awesome_print', '~> 1.6', '>= 1.6.1'
-  spec.add_dependency 'oj', '~> 2.11', '>= 2.11.2'
+  spec.add_dependency 'multi_json', '~> 1.11'
 end

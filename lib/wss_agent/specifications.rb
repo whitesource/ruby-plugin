@@ -120,7 +120,7 @@ module WssAgent
           h.adapter :excon
         end
         response = conn.get("/api/v1/gems/#{gem_name}.json")
-        dep_list = Oj.load(response.body)
+        dep_list = MultiJson.load(response.body)
         dep_list['dependencies'].values.flatten.
           map { |j| Gem::Dependency.new(j['name'], Gem::Requirement.new(j['requirements'].split(','))) }
       end

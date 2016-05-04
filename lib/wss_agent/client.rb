@@ -25,7 +25,7 @@ module WssAgent
       if Configure['project_token']
         diff_data['projectToken'] = Configure['project_token']
       end
-      Oj.dump([diff_data])
+      MultiJson.dump([diff_data])
     end
 
     def payload(gem_list, options = {})
