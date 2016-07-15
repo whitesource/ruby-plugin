@@ -3,7 +3,7 @@ require 'spec_helper'
 describe WssAgent::Configure  do
   let(:default_config) {
     {
-      'url' => 'http://saas.whitesourcesoftware.com/agent',
+      'url' => 'https://saas.whitesourcesoftware.com/agent',
       'token'=>'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
       "check_policies"=>false,
       'agent' => 'bundler-plugin',
@@ -54,7 +54,7 @@ describe WssAgent::Configure  do
       end
       it 'should return locally config' do
         expect(WssAgent::Configure.current).to eq({
-                                                    "url" => "http://saas.whitesourcesoftware.com",
+                                                    "url" => "https://saas.whitesourcesoftware.com",
                                                     "token" => "11111111-1111-1111-1111-111111111112",
                                                     "check_policies" => false,
                                                     "agent" => "bundler-plugin",
@@ -78,7 +78,7 @@ describe WssAgent::Configure  do
     end
     context 'when url is exist' do
       it 'should return url' do
-        expect(WssAgent::Configure.url).to eq('http://saas.whitesourcesoftware.com')
+        expect(WssAgent::Configure.url).to eq('https://saas.whitesourcesoftware.com')
       end
     end
   end
@@ -92,7 +92,7 @@ describe WssAgent::Configure  do
     context 'when token is found' do
       let(:config) {
         {
-          'url' => 'http://saas.whitesourcesoftware.com',
+          'url' => 'https://saas.whitesourcesoftware.com',
           'token' => '11111111-1111-1111-1111-111111111111'
         }
       }

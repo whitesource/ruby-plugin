@@ -64,7 +64,7 @@ describe WssAgent::Client, vcr: true  do
 
     context 'success' do
       before do
-        stub_request(:post, "http://saas.whitesourcesoftware.com/agent").
+        stub_request(:post, "https://saas.whitesourcesoftware.com/agent").
           to_return(status: 200,
                     body: success_response,
                     headers: {})
@@ -93,7 +93,7 @@ describe WssAgent::Client, vcr: true  do
 
     context 'server error' do
       before do
-        stub_request(:post, "http://saas.whitesourcesoftware.com/agent").
+        stub_request(:post, "https://saas.whitesourcesoftware.com/agent").
           to_return(status: 200,
                     body: server_error_response,
                     headers: {})
@@ -116,7 +116,7 @@ describe WssAgent::Client, vcr: true  do
 
     context 'server timeout' do
       before do
-        stub_request(:post, "http://saas.whitesourcesoftware.com/agent").
+        stub_request(:post, "https://saas.whitesourcesoftware.com/agent").
           to_timeout
       end
       subject { wss_client.update(WssAgent::Specifications.list) }
