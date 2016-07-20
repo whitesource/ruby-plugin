@@ -35,14 +35,24 @@ module WssAgent
         new(specs(options)).call
       end
 
+      def check_policy?(options = {})
+        options['force'] ||
+          WssAgent::Configure['check_policies'] ||
+          WssAgent::Configure['force_check_all_dependencies']
+      end
+      private :check_policy?
+
       # Send gem list to server
       #
       # @param (see Specifications#specs)
       def update(options = {})
         wss_client = WssAgent::Client.new
 
-        if WssAgent::Configure['check_policies']
-          policy_results = wss_client.check_policies(WssAgent::Specifications.list(options))
+        if check_policy?(options)
+          policy_results = wss_client.check_policies(
+            WssAgent::Specifications.list(options),
+            options
+          )
           if policy_results.success? && policy_results.policy_violations?
             puts policy_results.message
             return false
@@ -56,7 +66,7 @@ module WssAgent
           puts result.message
         else
           WssAgent.logger.debug "synchronization errors occur: status: #{result.status}, message: #{result.message}, data: #{result.data}"
-          ap "error: #{result.status}/#{result.data}", color: {string: :red }
+          ap "error: #{result.status}/#{result.data}", color: { string: :red }
         end
 
         result.success?
@@ -67,13 +77,16 @@ module WssAgent
       # @param (see Specifications#specs)
       def check_policies(options = {})
         wss_client = WssAgent::Client.new
-        result = wss_client.check_policies(WssAgent::Specifications.list(options))
+        result = wss_client.check_policies(
+          WssAgent::Specifications.list(options),
+          options
+        )
         if result.success?
           WssAgent.logger.debug result.data
           puts result.message
         else
           WssAgent.logger.debug "check policies errors occur: #{result.status}, message: #{result.message}, data: #{result.data}"
-          ap "error: #{result.status}/#{result.data}", color: {string: :red }
+          ap "error: #{result.status}/#{result.data}", color: { string: :red }
         end
       end
 
@@ -119,7 +132,7 @@ module WssAgent
       # @params version [String] version gem
       #
       # @return [Array<Gem::Dependency>] list gem dependencies
-      def remote_dependencies(gem_name, version)
+      def remote_dependencies(gem_name, _version)
         conn = Faraday.new(url: 'https://rubygems.org') do |h|
           h.headers[:content_type] = 'application/x-www-form-urlencoded'
           h.request :url_encoded
@@ -127,8 +140,12 @@ module WssAgent
         end
         response = conn.get("/api/v1/gems/#{gem_name}.json")
         dep_list = MultiJson.load(response.body)
-        dep_list['dependencies'].values.flatten.
-          map { |j| Gem::Dependency.new(j['name'], Gem::Requirement.new(j['requirements'].split(','))) }
+        dep_list['dependencies'].values.flatten.map { |j|
+          Gem::Dependency.new(
+            j['name'],
+            Gem::Requirement.new(j['requirements'].split(','))
+          )
+        }
       end
     end # end class << self
 

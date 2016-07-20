@@ -43,9 +43,9 @@ module WssAgent
       ResponseInventory.new(request(gem_list, type: UPDATE_TYPE))
     end
 
-    def check_policies(gem_list)
+    def check_policies(gem_list, options = {})
       request_options = { type: CHECK_POLICIES_TYPE }
-      if WssAgent::Configure['force_check_all_dependencies']
+      if WssAgent::Configure['force_check_all_dependencies'] || options['force']
         request_options['forceCheckAllDependencies'] = true
       end
 
