@@ -17,9 +17,8 @@ require 'wss_agent/client'
 require 'wss_agent/gem_sha1'
 require 'wss_agent/project'
 
-
 module WssAgent
-  # Your code goes here...
+  DEFAULT_CA_BUNDLE_PATH = File.dirname(__FILE__) + '/data/ca-certificates.crt'
 
   class WssAgentError < StandardError
     def self.status_code(code)
@@ -27,11 +26,11 @@ module WssAgent
     end
   end
 
-  class NotFoundConfigFile  < WssAgentError; status_code(8) ; end
-  class InvalidConfigFile   < WssAgentError; status_code(9) ; end
-  class TokenNotFound       < WssAgentError; status_code(10) ; end
-  class ApiUrlNotFound      < WssAgentError; status_code(11) ; end
-  class ApiUrlInvalid       < WssAgentError; status_code(12) ; end
+  class NotFoundConfigFile  < WssAgentError; status_code(8); end
+  class InvalidConfigFile   < WssAgentError; status_code(9); end
+  class TokenNotFound       < WssAgentError; status_code(10); end
+  class ApiUrlNotFound      < WssAgentError; status_code(11); end
+  class ApiUrlInvalid       < WssAgentError; status_code(12); end
 
   def self.logger
     @logger ||= Yell.new STDOUT, level: [:info]

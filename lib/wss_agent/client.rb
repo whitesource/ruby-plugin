@@ -7,7 +7,7 @@ module WssAgent
     REQUEST_TIMEOUT = 120
 
     def initialize
-      @connection ||= Faraday.new(Configure.url, { request: { timeout: REQUEST_TIMEOUT } }) do |h|
+      @connection ||= Faraday.new(connection_options) do |h|
         h.port = Configure.port
         h.headers[:content_type] = 'application/x-www-form-urlencoded'
         h.request :url_encoded
@@ -54,6 +54,25 @@ module WssAgent
       connection.post(WssAgent::Configure.api_path, payload(gem_list, options))
     rescue Faraday::Error::ClientError => ex
       ex
+    end
+
+    private
+
+    def connection_options
+      @connection_options ||
+        begin
+
+          @connection_options = {
+            url: Configure.url,
+            request: { timeout: REQUEST_TIMEOUT }
+          }
+          if Configure.ssl?
+            @connection_options[:ssl] = {
+              ca_file: WssAgent::DEFAULT_CA_BUNDLE_PATH
+            }
+          end
+        end
+      @connection_options
     end
   end
 end

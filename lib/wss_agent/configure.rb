@@ -65,6 +65,10 @@ module WssAgent
         [@uri.scheme, @uri.host].join('://')
       end
 
+      def ssl?
+        uri.scheme == 'https'
+      end
+
       def api_path
         @uri = uri
         @url_path = @uri.path
