@@ -1,9 +1,8 @@
 module WssAgent
   class Client
-
     attr_accessor :connection
-    CHECK_POLICIES_TYPE = 'CHECK_POLICIES'
-    UPDATE_TYPE = 'UPDATE'
+    CHECK_POLICIES_TYPE = 'CHECK_POLICIES'.freeze
+    UPDATE_TYPE = 'UPDATE'.freeze
     REQUEST_TIMEOUT = 120
 
     def initialize
@@ -25,7 +24,7 @@ module WssAgent
       if Configure['project_token']
         diff_data['projectToken'] = Configure['project_token']
       end
-      Oj.dump([diff_data])
+      MultiJson.dump([diff_data])
     end
 
     def payload(gem_list, options = {})
@@ -41,11 +40,11 @@ module WssAgent
     end
 
     def update(gem_list)
-      ResponseInventory.new(request(gem_list, { type: UPDATE_TYPE }))
+      ResponseInventory.new(request(gem_list, type: UPDATE_TYPE))
     end
 
     def check_policies(gem_list)
-      ResponsePolicies.new(request(gem_list, { type: CHECK_POLICIES_TYPE }))
+      ResponsePolicies.new(request(gem_list, type: CHECK_POLICIES_TYPE))
     end
 
     def request(gem_list, options = {})

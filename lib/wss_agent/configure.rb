@@ -1,16 +1,14 @@
 module WssAgent
   class Configure
-
-    DEFAULT_CONFIG_FILE = 'default.yml'
-    CUSTOM_DEFAULT_CONFIG_FILE = 'custom_default.yml'
-    CURRENT_CONFIG_FILE = 'wss_agent.yml'
-    API_PATH = '/agent'
+    DEFAULT_CONFIG_FILE = 'default.yml'.freeze
+    CUSTOM_DEFAULT_CONFIG_FILE = 'custom_default.yml'.freeze
+    CURRENT_CONFIG_FILE = 'wss_agent.yml'.freeze
+    API_PATH = '/agent'.freeze
 
     extend SingleForwardable
     def_delegator :current, :[]
 
     class << self
-
       def default_path
         File.join(File.expand_path('../..', __FILE__), 'config', DEFAULT_CONFIG_FILE)
       end
@@ -38,8 +36,8 @@ module WssAgent
 
         @current_config = YAML.load(File.read(current_path))
 
-       unless !!@current_config
-          return raise InvalidConfigFile, "Problem reading wss_agent.yml, please check the file is a valid YAML"
+        unless !!@current_config
+          return raise InvalidConfigFile, 'Problem reading wss_agent.yml, please check the file is a valid YAML'
         end
 
         default.merge(@current_config)
@@ -53,7 +51,7 @@ module WssAgent
         URI(@url)
 
       rescue URI::Error
-        raise ApiUrlInvalid, "Api url is invalid. Could you please check url in wss_agent.yml"
+        raise ApiUrlInvalid, 'Api url is invalid. Could you please check url in wss_agent.yml'
       end
 
       def port
@@ -72,7 +70,7 @@ module WssAgent
       def api_path
         @uri = uri
         @url_path = @uri.path
-        @url_path == "" ? API_PATH : @url_path
+        @url_path == '' ? API_PATH : @url_path
       end
 
       def token
