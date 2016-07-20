@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'White Source agent.'
   spec.description   = 'White Source agent to sync gems'
   spec.homepage      = 'https://github.com/whitesource/ruby-plugin'
-  spec.license       = 'Apache License 2.0'
+  spec.license       = 'Apache-2.0'
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
