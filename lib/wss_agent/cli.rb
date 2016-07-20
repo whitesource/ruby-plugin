@@ -7,6 +7,7 @@ module WssAgent
       end
       ap 'Created the config file: wss_agent.yml'
     end
+    map init: :config
 
     desc 'list', 'display list dependencies'
     method_options all: :boolean
