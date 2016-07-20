@@ -1,6 +1,6 @@
 module WssAgent
   class CLI < Thor
-    desc "config", "create config file"
+    desc 'config', 'create config file'
     def config
       File.open(File.join(Dir.pwd, Configure::CURRENT_CONFIG_FILE), 'w') do |f|
         f << File.read(Configure.custom_default_path)
@@ -10,9 +10,9 @@ module WssAgent
     map init: :config
 
     desc 'list', 'display list dependencies'
-    method_options all: :boolean
-    method_options excludes: :string
-    method_option :verbose, :aliases => "-v", :desc => "Be verbose"
+    method_option :all, type: :boolean
+    method_option :excludes, type: :string
+    method_option :verbose, aliases: '-v', desc: 'Be verbose'
     def list
       WssAgent.enable_debug! if options['verbose']
       results = Specifications.list(options)
@@ -25,9 +25,10 @@ module WssAgent
     end
 
     desc 'update', 'update open source inventory'
-    method_options all: :boolean
-    method_options excludes: :string
-    method_option :verbose, :aliases => "-v", :desc => "Be verbose"
+    method_option :all, type: :boolean
+    method_option :excludes, type: :string
+    method_option :verbose, aliases: '-v', desc: 'Be verbose'
+    method_option :force, type: :boolean, aliases: '-f', desc: 'Force Check All Dependencies'
     def update
       WssAgent.enable_debug! if options['verbose']
       Specifications.update(options)
@@ -36,7 +37,8 @@ module WssAgent
     end
 
     desc 'check_policies', 'checking dependencies that they conforms with company policy.'
-    method_option :verbose, :aliases => "-v", :desc => "Be verbose"
+    method_option :verbose, aliases: '-v', desc: 'Be verbose'
+    method_option :force, type: :boolean, aliases: '-f', desc: 'Force Check All Dependencies'
     def check_policies
       WssAgent.enable_debug! if options['verbose']
       Specifications.check_policies(options)
