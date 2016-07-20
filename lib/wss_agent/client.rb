@@ -1,7 +1,11 @@
 module WssAgent
   class Client
     attr_accessor :connection
-    CHECK_POLICIES_TYPE = 'CHECK_POLICIES'.freeze
+    POLICY_TYPES = {
+      basic: 'CHECK_POLICIES',
+      compliance: 'CHECK_POLICY_COMPLIANCE'
+    }.freeze
+
     UPDATE_TYPE = 'UPDATE'.freeze
     REQUEST_TIMEOUT = 120
 
@@ -44,10 +48,12 @@ module WssAgent
     end
 
     def check_policies(gem_list, options = {})
-      request_options = { type: CHECK_POLICIES_TYPE }
-      if WssAgent::Configure['force_check_all_dependencies'] || options['force']
-        request_options['forceCheckAllDependencies'] = true
-      end
+      request_options =
+        if WssAgent::Configure['force_check_all_dependencies'] || options['force']
+          { type: POLICY_TYPES[:compliance], forceCheckAllDependencies: true }
+        else
+          { type: POLICY_TYPES[:basic], forceCheckAllDependencies: false }
+        end
 
       ResponsePolicies.new(request(gem_list, request_options))
     end

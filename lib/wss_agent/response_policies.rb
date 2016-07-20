@@ -1,6 +1,6 @@
 module WssAgent
   class ResponsePolicies < Response
-    REJECT_ACTION = 'Reject'
+    REJECT_ACTION = 'Reject'.freeze
 
     def parse_response
       if response.success?
