@@ -10,7 +10,11 @@ module WssAgent
       # @option options [Boolean] 'all' if true then get all dependencies (include development dependencies)
       # @option options [String] 'excludes' list gem name which need to exclude from end list
       def specs(options = {})
-        list_gems = Bundler::Definition.build(Bundler.default_gemfile, Bundler.default_lockfile, false).specs.to_a
+        list_gems = Bundler::Definition.build(
+          Bundler.default_gemfile,
+          Bundler.default_lockfile,
+          false
+        ).specs.to_a
         if options['all']
           # get all gems
           list = {}
@@ -36,6 +40,7 @@ module WssAgent
       # @param (see Specifications#specs)
       def update(options = {})
         wss_client = WssAgent::Client.new
+
         if WssAgent::Configure['check_policies']
           policy_results = wss_client.check_policies(WssAgent::Specifications.list(options))
           if policy_results.success? && policy_results.policy_violations?
@@ -43,6 +48,7 @@ module WssAgent
             return false
           end
         end
+
 
         result = wss_client.update(WssAgent::Specifications.list(options))
         if result.success?

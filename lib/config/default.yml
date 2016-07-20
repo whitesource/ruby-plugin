@@ -2,6 +2,7 @@
 url: https://saas.whitesourcesoftware.com/agent
 token: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 check_policies: false
+force_check_all_dependencies: false
 agent: bundler-plugin
 agent_version: '1.0'
 product: ''

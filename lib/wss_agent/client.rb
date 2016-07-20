@@ -44,7 +44,12 @@ module WssAgent
     end
 
     def check_policies(gem_list)
-      ResponsePolicies.new(request(gem_list, type: CHECK_POLICIES_TYPE))
+      request_options = { type: CHECK_POLICIES_TYPE }
+      if WssAgent::Configure['force_check_all_dependencies']
+        request_options['forceCheckAllDependencies'] = true
+      end
+
+      ResponsePolicies.new(request(gem_list, request_options))
     end
 
     def request(gem_list, options = {})
