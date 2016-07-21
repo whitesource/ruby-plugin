@@ -2,43 +2,39 @@ module WssAgent
   class Project
 
     def project_name
-      case
-      when is_gem?
-        gem.name
-      when is_rails_app?
-        rails_app_name
-      else
-        folder_name
-      end
+      return gem.name if gem?
+      return rails_app_name if rails?
+      folder_name
     end
 
     def project_version
-      if is_gem?
-        gem.version.to_s
-      else
-        ''
-      end
+      gem? ? gem.version.to_s : ''
     end
 
     def folder_name
       Bundler.root.split.last.to_s
     end
 
-    def is_gem?
+    def gem?
       !Dir.glob(Bundler.root.join('*.gemspec')).last.nil?
     end
 
     def gem
-      @gem ||= Gem::Specification.load(Dir.glob(Bundler.root.join('*.gemspec')).last)
+      @gem ||= Gem::Specification.load(
+        Dir.glob(Bundler.root.join('*.gemspec')).last
+      )
     end
 
-    def is_rails_app?
-      !Dir.glob(Bundler.root.join('config', 'application.rb')).last.nil?
+    def rails?
+      File.exist?(rails_app_path)
     end
 
     def rails_app_name
-      application_file = File.read(Dir.glob(Bundler.root.join('config', 'application.rb')).last)
-      application_file.match(/module (\w*)/) && $1
+      File.read(rails_app_path).match(/module (\w*)/)[1]
+    end
+
+    def rails_app_path
+      Bundler.root.join('config', 'application.rb')
     end
   end
 end

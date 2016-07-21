@@ -1,4 +1,4 @@
-require "digest"
+require 'digest'
 
 module WssAgent
   class Specifications
@@ -103,6 +103,7 @@ module WssAgent
           if options['excludes'] && options['excludes'].to_s.split(',').include?(gd.name)
             next
           end
+
           gs = gd.matching_specs.first
           if gs
             unless list[gs.name]
@@ -113,8 +114,10 @@ module WssAgent
             end
           else
             unless list[gd.name]
-              list[gd.name] = Gem::Specification.new(gd.name,
-                                                     gd.requirements_list.last.scan(/[\d\.\w]+/).first)
+              list[gd.name] = Gem::Specification.new(
+                gd.name,
+                gd.requirements_list.last.scan(/[\d\.\w]+/).first
+              )
               rm_dep = remote_dependencies(gd.name, gd.requirements_list.last)
               unless rm_dep.empty?
                 list = gem_dependencies(list, rm_dep, options)
@@ -140,12 +143,12 @@ module WssAgent
         end
         response = conn.get("/api/v1/gems/#{gem_name}.json")
         dep_list = MultiJson.load(response.body)
-        dep_list['dependencies'].values.flatten.map { |j|
+        dep_list['dependencies'].values.flatten.map do |j|
           Gem::Dependency.new(
             j['name'],
             Gem::Requirement.new(j['requirements'].split(','))
           )
-        }
+        end
       end
     end # end class << self
 
@@ -163,8 +166,8 @@ module WssAgent
     def gem_item(spec)
       {
         'groupId' => spec.name,
-			  'artifactId' => spec.file_name,
-			  'version' => spec.version.to_s,
+        'artifactId' => spec.file_name,
+        'version' => spec.version.to_s,
         'sha1' => GemSha1.new(spec).sha1,
         'optional' => false,
         'children' => [],

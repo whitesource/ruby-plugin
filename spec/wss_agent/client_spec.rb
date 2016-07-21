@@ -124,7 +124,7 @@ describe WssAgent::Client, vcr: true  do
         expect(subject).to_not be_success
       end
       it 'should return message response' do
-        expect(subject.message).to eq("Excon::Errors::Timeout")
+        expect(subject.message).to eq("Excon::Error::Timeout")
       end
       it 'should return status of response' do
         expect(subject.status).to eq(WssAgent::Response::SERVER_ERROR_STATUS)
