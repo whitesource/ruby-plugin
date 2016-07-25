@@ -52,6 +52,14 @@ $ wss_agent update
 $ wss_agent check_policies
 ```
 
+### 6) checking all dependencies that they conforms with company policy (force).
+```bash
+$ wss_agent check_policies -f
+```
+
+or add 'force_check_all_dependencies: true' to 'wss_agent.yml'
+
+
 ## Debug
 
 
