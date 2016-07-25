@@ -1,18 +1,19 @@
 require 'spec_helper'
 
-describe WssAgent::Configure  do
-  let(:default_config) {
+describe WssAgent::Configure do
+  let(:default_config) do
     {
       'url' => 'https://saas.whitesourcesoftware.com/agent',
-      'token'=>'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-      "check_policies"=>false,
+      'token' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+      'check_policies' => false,
+      'force_check_all_dependencies' => false,
       'agent' => 'bundler-plugin',
       'agent_version' => '1.0',
       'product' => '',
       'product_version' => '',
-      'coordinates' => {"artifact_id"=>"", "version"=>""}
+      'coordinates' => { 'artifact_id' => '', 'version' => '' }
     }
-  }
+  end
 
   describe '.default_path' do
     it 'should return path of default config' do
@@ -50,19 +51,18 @@ describe WssAgent::Configure  do
     context 'when locally config is found' do
       before do
         allow(WssAgent::Configure).to receive(:current_path)
-                                       .and_return(File.join(File.expand_path('../..', __FILE__), 'fixtures/wss_agent.yml'))
+          .and_return(File.join(File.expand_path('../..', __FILE__), 'fixtures/wss_agent.yml'))
       end
       it 'should return locally config' do
-        expect(WssAgent::Configure.current).to eq({
-                                                    "url" => "https://saas.whitesourcesoftware.com",
-                                                    "token" => "11111111-1111-1111-1111-111111111112",
-                                                    "check_policies" => false,
-                                                    "agent" => "bundler-plugin",
-                                                    "agent_version" => "1.0",
-                                                    "coordinates" => {"artifact_id"=>"", "version"=>""},
-                                                    "product" => "Test product",
-                                                    "product_version" => "1.0.1"
-                                                  })
+        expect(WssAgent::Configure.current).to eq('url' => 'https://saas.whitesourcesoftware.com',
+                                                  'token' => '11111111-1111-1111-1111-111111111112',
+                                                  'check_policies' => false,
+                                                  'force_check_all_dependencies' => false,
+                                                  'agent' => 'bundler-plugin',
+                                                  'agent_version' => '1.0',
+                                                  'coordinates' => { 'artifact_id' => '', 'version' => '' },
+                                                  'product' => 'Test product',
+                                                  'product_version' => '1.0.1')
       end
     end
   end
@@ -73,7 +73,7 @@ describe WssAgent::Configure  do
         allow(WssAgent::Configure).to receive_messages(current: {})
       end
       it 'should cause an exception' do
-        expect{ WssAgent::Configure.url }.to raise_error(WssAgent::ApiUrlNotFound)
+        expect { WssAgent::Configure.url }.to raise_error(WssAgent::ApiUrlNotFound)
       end
     end
     context 'when url is exist' do
@@ -86,16 +86,16 @@ describe WssAgent::Configure  do
   describe '.token' do
     context 'when token is not found' do
       it 'should cause an exception' do
-        expect{ WssAgent::Configure.token }.to raise_error(WssAgent::TokenNotFound)
+        expect { WssAgent::Configure.token }.to raise_error(WssAgent::TokenNotFound)
       end
     end
     context 'when token is found' do
-      let(:config) {
+      let(:config) do
         {
           'url' => 'https://saas.whitesourcesoftware.com',
           'token' => '11111111-1111-1111-1111-111111111111'
         }
-      }
+      end
       before do
         allow(WssAgent::Configure).to receive_messages(current: config)
       end
@@ -121,7 +121,7 @@ describe WssAgent::Configure  do
   describe '.product' do
     before do
       allow(WssAgent::Configure).to receive(:current_path)
-                                     .and_return(File.join(File.expand_path('../..', __FILE__), 'fixtures/wss_agent.yml'))
+        .and_return(File.join(File.expand_path('../..', __FILE__), 'fixtures/wss_agent.yml'))
     end
 
     it 'should be "Test product"' do
@@ -132,7 +132,7 @@ describe WssAgent::Configure  do
   describe '.product_version' do
     before do
       allow(WssAgent::Configure).to receive(:current_path)
-                                     .and_return(File.join(File.expand_path('../..', __FILE__), 'fixtures/wss_agent.yml'))
+        .and_return(File.join(File.expand_path('../..', __FILE__), 'fixtures/wss_agent.yml'))
     end
 
     it 'should be "1.0.1"' do

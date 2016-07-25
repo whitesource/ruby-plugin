@@ -1,4 +1,4 @@
-require "digest"
+require 'digest'
 
 module WssAgent
   class GemSha1
@@ -61,9 +61,7 @@ module WssAgent
 
       when '302' # redirect
         response = Net::HTTP.get_response(URI(response['location']))
-        if response.code == '200'
-          return Digest::SHA1.hexdigest(response.body)
-        end
+        return Digest::SHA1.hexdigest(response.body) if response.code == '200'
       else # gem isn't found
         ''
       end
@@ -71,6 +69,5 @@ module WssAgent
     rescue Timeout::Error
       retry_request ? nil : remote_file(true)
     end
-
   end
 end

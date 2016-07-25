@@ -1,6 +1,6 @@
 module WssAgent
   class ResponsePolicies < Response
-    REJECT_ACTION = 'Reject'
+    REJECT_ACTION = 'Reject'.freeze
 
     def parse_response
       if response.success?
@@ -20,7 +20,6 @@ module WssAgent
       end
     end
 
-
     def message
       if success?
         if policy_violations?
@@ -33,7 +32,7 @@ module WssAgent
           }.join("\n")
           @message.join("\n")
         else
-          "All dependencies conform with open source policies"
+          'All dependencies conform with open source policies'
         end
       end
     end
@@ -64,8 +63,10 @@ module WssAgent
     def check(resource)
       if resource.key?('resource') && resource.key?('policy') &&
          (resource['policy']['actionType'] == REJECT_ACTION)
-        add_resource({'resource' => resource['resource'],
-                      'policy' => resource['policy']})
+        add_resource(
+          'resource' => resource['resource'],
+          'policy' => resource['policy']
+        )
       end
 
       if resource.key?('children') && resource['children'].is_a?(Array)
