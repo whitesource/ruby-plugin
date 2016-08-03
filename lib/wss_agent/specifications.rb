@@ -69,7 +69,7 @@ module WssAgent
           ap "error: #{result.status}/#{result.data}", color: { string: :red }
         end
 
-        result.success?
+        result
       end
 
       # checking dependencies that they conforms with company policy.
@@ -88,6 +88,8 @@ module WssAgent
           WssAgent.logger.debug "check policies errors occur: #{result.status}, message: #{result.message}, data: #{result.data}"
           ap "error: #{result.status}/#{result.data}", color: { string: :red }
         end
+
+        result
       end
 
       # Get all dependencies includes development

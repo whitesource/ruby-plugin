@@ -31,9 +31,11 @@ module WssAgent
     method_option :force, type: :boolean, aliases: '-f', desc: 'Force Check All Dependencies'
     def update
       WssAgent.enable_debug! if options['verbose']
-      Specifications.update(options)
+      result = Specifications.update(options)
+      result.success? ? exit(0) : exit(1)
     rescue => ex
       ap ex.message, color: { string: :red }
+      abort
     end
 
     desc 'check_policies', 'checking dependencies that they conforms with company policy.'
@@ -41,7 +43,8 @@ module WssAgent
     method_option :force, type: :boolean, aliases: '-f', desc: 'Force Check All Dependencies'
     def check_policies
       WssAgent.enable_debug! if options['verbose']
-      Specifications.check_policies(options)
+      result = Specifications.check_policies(options)
+      (result.success? && result.policy_violations?) ? exit(1) : exit(0)
     end
 
     desc 'version', 'Agent version'
