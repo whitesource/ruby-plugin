@@ -55,7 +55,7 @@ module WssAgent
           )
           if policy_results.success? && policy_results.policy_violations?
             puts policy_results.message
-            return false
+            return Struct.new(:status) { def success?; status; end; }.new(false)
           end
         end
 

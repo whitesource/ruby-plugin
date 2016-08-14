@@ -61,7 +61,8 @@ describe WssAgent::Specifications, vcr: true do
         allow_any_instance_of(WssAgent::Client).to receive(:update)
                                                     .and_return(success_response)
         allow(WssAgent::Specifications).to receive(:list).and_return(gem_list)
-        expect(WssAgent::Specifications.update).to be true
+        res = WssAgent::Specifications.update
+        expect(res.success?).to be true
       end
     end
 
@@ -77,8 +78,8 @@ describe WssAgent::Specifications, vcr: true do
           allow(policy_success_response).to receive(:policy_violations?).and_return(true)
           expect(wss_client).to receive(:check_policies).and_return(policy_success_response)
           expect(wss_client).to_not receive(:update)
-
-          expect(WssAgent::Specifications.update).to be false
+          res = WssAgent::Specifications.update
+          expect(res.success?).to be false
         end
       end
 
@@ -89,7 +90,8 @@ describe WssAgent::Specifications, vcr: true do
           expect(wss_client).to receive(:check_policies).and_return(policy_success_response)
           expect(wss_client).to receive(:update).and_return(success_response)
 
-          expect(WssAgent::Specifications.update).to be true
+          res = WssAgent::Specifications.update
+          expect(res.success?).to be true
         end
       end
     end
@@ -106,7 +108,8 @@ describe WssAgent::Specifications, vcr: true do
         expect(wss_client).to_not receive(:check_policies)
         expect(wss_client).to receive(:update).and_return(success_response)
 
-        expect(WssAgent::Specifications.update).to be true
+        res = WssAgent::Specifications.update
+        expect(res.success?).to be true
       end
     end
   end
