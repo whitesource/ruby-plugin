@@ -28,23 +28,24 @@ describe WssAgent::CLI, vcr: true  do
   end
 
   context 'update' do
-    let(:output) { capture(:stdout) { subject.update } }
     context 'when not found token' do
-      it 'should display error message' do
-        expect(output).to eq("\e[1;31m\"Can't find Token, please add your Whitesource API token in the wss_agent.yml file\"\e[0m\n")
+      let(:output) { capture(:stdout) { subject.update } }
+      it 'should display results' do
+        expect(WssAgent::Specifications).to receive(:update).and_return(double('result', success?: true))
+        expect{ output }.to terminate.with_code(0)
       end
-    end
-    it 'should display results' do
-      expect(WssAgent::Specifications).to receive(:update).and_return([])
-      expect(output).to eq("")
     end
   end
 
   context 'check_policies' do
     let(:output) { capture(:stdout) { subject.check_policies } }
     it 'should display results' do
-      expect(WssAgent::Specifications).to receive(:check_policies).and_return([])
-      expect(output).to eq("")
+      expect(
+        WssAgent::Specifications
+      ).to receive(:check_policies).and_return(
+             double('result', success?: true, policy_violations?: true)
+           )
+      expect { output }.to terminate.with_code(1)
     end
   end
 

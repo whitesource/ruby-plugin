@@ -82,15 +82,19 @@ module WssAgent
       end
 
       def coordinates
+        return {} unless current['project_token'].to_s.strip.empty?
+
         project_meta = WssAgent::Project.new
+
         coordinates_config = current['coordinates']
         coordinates_artifact_id = coordinates_config['artifact_id']
         coordinates_version = coordinates_config['version']
 
-        if coordinates_artifact_id.nil? || coordinates_artifact_id == ''
+        if coordinates_artifact_id.to_s.strip.empty?
           coordinates_artifact_id = project_meta.project_name
           coordinates_version = project_meta.project_version
         end
+
         {
           'artifactId' => coordinates_artifact_id,
           'version' => coordinates_version
