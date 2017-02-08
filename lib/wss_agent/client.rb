@@ -17,6 +17,9 @@ module WssAgent
         h.adapter :excon
       end
 
+      if defined?(JRuby)
+        Excon.defaults[:ciphers] = 'DEFAULT'
+      end
       @connection
     end
 
