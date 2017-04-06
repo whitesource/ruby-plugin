@@ -10,11 +10,16 @@ module WssAgent
 
     class << self
       def default_path
-        File.join(File.expand_path('../..', __FILE__), 'config', DEFAULT_CONFIG_FILE)
+        File.join(
+          File.expand_path('../..', __FILE__), 'config', DEFAULT_CONFIG_FILE
+        )
       end
 
       def custom_default_path
-        File.join(File.expand_path('../..', __FILE__), 'config', CUSTOM_DEFAULT_CONFIG_FILE)
+        File.join(
+          File.expand_path('../..', __FILE__), 'config',
+          CUSTOM_DEFAULT_CONFIG_FILE
+        )
       end
 
       def exist_default_config?
@@ -22,7 +27,7 @@ module WssAgent
       end
 
       def default
-        exist_default_config? ? YAML.load(File.read(default_path)) : {}
+        exist_default_config? ? Psych.safe_load(File.read(default_path)) : {}
       end
 
       def current_path
@@ -31,13 +36,13 @@ module WssAgent
 
       def current
         unless File.exist?(current_path)
-          return raise NotFoundConfigFile, "Config file isn't exist. Could you please run 'wss_agent config' before."
+          return raise NotFoundConfigFile, WssAgentError::NOT_FOUND_CONFIGFILE
         end
 
-        @current_config = YAML.load(File.read(current_path))
+        @current_config = Psych.safe_load(File.read(current_path))
 
-        unless !!@current_config
-          return raise InvalidConfigFile, 'Problem reading wss_agent.yml, please check the file is a valid YAML'
+        unless @current_config
+          return raise InvalidConfigFile, WssAgentError::INVALID_CONFIG_FORMAT
         end
 
         default.merge(@current_config)
@@ -46,12 +51,12 @@ module WssAgent
       def uri
         @url = current['url']
         if @url.nil? || @url == ''
-          raise ApiUrlNotFound, "Can't find the url, please add your Whitesource url destination in the wss_agent.yml file."
+          raise ApiUrlNotFound, WssAgentError::CANNOT_FIND_URL
         end
         URI(@url)
 
       rescue URI::Error
-        raise ApiUrlInvalid, 'Api url is invalid. Could you please check url in wss_agent.yml'
+        raise ApiUrlInvalid, WssAgentError::URL_INVALID
       end
 
       def port
@@ -74,31 +79,29 @@ module WssAgent
       end
 
       def token
-        if current['token'].nil? || (current['token'] == '') || (current['token'] == default['token'])
-          raise TokenNotFound, "Can't find Token, please add your Whitesource API token in the wss_agent.yml file"
+        if current['token'].nil? || (current['token'] == '') ||
+           (current['token'] == default['token'])
+          raise TokenNotFound, WssAgentError::CANNOT_FIND_TOKEN
         else
           current['token']
         end
       end
 
+      def project_meta
+        @project_meta ||= WssAgent::Project.new
+      end
+
       def coordinates
         return {} unless current['project_token'].to_s.strip.empty?
-
-        project_meta = WssAgent::Project.new
-
         coordinates_config = current['coordinates']
         coordinates_artifact_id = coordinates_config['artifact_id']
         coordinates_version = coordinates_config['version']
-
         if coordinates_artifact_id.to_s.strip.empty?
           coordinates_artifact_id = project_meta.project_name
           coordinates_version = project_meta.project_version
         end
-
-        {
-          'artifactId' => coordinates_artifact_id,
-          'version' => coordinates_version
-        }
+        { 'artifactId' => coordinates_artifact_id,
+          'version' => coordinates_version }
       end
     end
   end

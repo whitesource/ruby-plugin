@@ -1,7 +1,7 @@
 require 'thor'
 require 'net/http'
 require 'awesome_print'
-require 'yaml'
+require 'psych'
 require 'multi_json'
 require 'faraday'
 require 'faraday_middleware'
@@ -21,6 +21,12 @@ module WssAgent
   DEFAULT_CA_BUNDLE_PATH = File.dirname(__FILE__) + '/data/ca-certificates.crt'
 
   class WssAgentError < StandardError
+    URL_INVALID = 'Api url is invalid. Could you please check url in wss_agent.yml'.freeze
+    CANNOT_FIND_TOKEN = "Can't find Token, please add your Whitesource API token in the wss_agent.yml file".freeze
+    CANNOT_FIND_URL = "Can't find the url, please add your Whitesource url destination in the wss_agent.yml file.".freeze
+    INVALID_CONFIG_FORMAT = 'Problem reading wss_agent.yml, please check the file is a valid YAML'.freeze
+    NOT_FOUND_CONFIGFILE = "Config file isn't exist. Could you please run 'wss_agent config' before.".freeze
+
     def self.status_code(code)
       define_method(:status_code) { code }
     end
@@ -37,6 +43,8 @@ module WssAgent
   end
 
   def self.enable_debug!
-    @logger ||= Yell.new STDOUT, level: [:debug, :info, :warn, :error, :fatal, :unknown]
+    @logger ||= Yell.new(
+      STDOUT, level: [:debug, :info, :warn, :error, :fatal, :unknown]
+    )
   end
 end
