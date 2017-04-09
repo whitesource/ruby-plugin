@@ -42,24 +42,25 @@ module WssAgent
       end
       private :check_policy?
 
+      def force_update?(options = {})
+        options['force-update'] ||
+          WssAgent::Configure['force_update']
+      end
+
+      private :force_update?
+
       # Send gem list to server
       #
       # @param (see Specifications#specs)
       def update(options = {})
-        wss_client = WssAgent::Client.new
-
-        if check_policy?(options)
-          policy_results = wss_client.check_policies(
-            WssAgent::Specifications.list(options),
-            options
-          )
-          if policy_results.success? && policy_results.policy_violations?
-            puts policy_results.message
-            return Struct.new(:status) { def success?; status; end; }.new(false)
-          end
+        result = check_policies_for_update(options)
+        if !force_update?(options) && (result.status == :reject)
+          return Struct.new(:status) do
+            alias_method :success?, :status
+          end.new(false)
         end
 
-
+        wss_client = WssAgent::Client.new
         result = wss_client.update(WssAgent::Specifications.list(options))
         if result.success?
           WssAgent.logger.debug result.data
@@ -70,6 +71,22 @@ module WssAgent
         end
 
         result
+      end
+
+      # Check policies before update
+      #
+      # @param (see Specifications#specs)
+      def check_policies_for_update(options = {})
+        return Struct.new(:status).new(:ok) unless check_policy?(options)
+        wss_client = WssAgent::Client.new
+        policy_results = wss_client.check_policies(
+          WssAgent::Specifications.list(options), options
+        )
+        if policy_results.success? && policy_results.policy_violations?
+          puts policy_results.message
+          return Struct.new(:status, :msg).new(:reject, policy_results.message)
+        end
+        Struct.new(:status).new(:ok)
       end
 
       # checking dependencies that they conforms with company policy.

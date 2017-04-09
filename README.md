@@ -47,6 +47,13 @@ Commands:
 ```bash
 $ wss_agent update
 ```
+
+###### force update
+```bash
+$ wss_agent update --force-update
+```
+or add 'force_update: true' to 'wss_agent.yml'
+
 ### 5) checking dependencies that they conforms with company policy.
 ```bash
 $ wss_agent check_policies

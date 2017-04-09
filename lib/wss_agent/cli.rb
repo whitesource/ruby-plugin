@@ -29,6 +29,7 @@ module WssAgent
     method_option :excludes, type: :string
     method_option :verbose, aliases: '-v', desc: 'Be verbose'
     method_option :force, type: :boolean, aliases: '-f', desc: 'Force Check All Dependencies'
+    method_option :'force-update', type: :boolean, desc: 'Force Update'
     def update
       WssAgent.enable_debug! if options['verbose']
       result = Specifications.update(options)

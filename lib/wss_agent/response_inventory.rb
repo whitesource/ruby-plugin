@@ -16,7 +16,7 @@ module WssAgent
         if data['updatedProjects'].empty?
           @message << "\n  No projects were updated \n"
         else
-          @message << "  #{data['updatedProjects'].size}  existing projects were updated: "
+          @message << "  #{data['updatedProjects'].size} existing projects were updated: "
           @message << data['updatedProjects'].join(' ')
         end
 
