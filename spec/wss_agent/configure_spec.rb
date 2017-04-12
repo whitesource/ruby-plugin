@@ -67,6 +67,24 @@ describe WssAgent::Configure do
     end
   end
 
+  describe '.force_update' do
+    it 'set value to false' do
+      expect(WssAgent::Configure['force_update']).to be_falsey
+    end
+    it 'set value to true' do
+      allow(
+        WssAgent::Configure
+      ).to receive_messages(current: { 'force_update' => true })
+      expect(WssAgent::Configure['force_update']).to be_truthy
+    end
+
+    context 'default value' do
+      it 'should be false' do
+        expect(WssAgent::Configure['force_update']).to be_falsey
+      end
+    end
+  end
+
   describe '.url' do
     context 'when url is empty' do
       before do

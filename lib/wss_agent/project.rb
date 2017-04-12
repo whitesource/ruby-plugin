@@ -1,6 +1,5 @@
 module WssAgent
   class Project
-
     def project_name
       return gem.name if gem?
       return rails_app_name if rails?

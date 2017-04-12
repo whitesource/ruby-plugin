@@ -1,4 +1,6 @@
 module WssAgent
+  # Client class
+  #
   class Client
     attr_accessor :connection
     POLICY_TYPES = {
@@ -16,10 +18,8 @@ module WssAgent
         h.request :url_encoded
         h.adapter :excon
       end
+      Excon.defaults[:ciphers] = 'DEFAULT' if defined?(JRuby)
 
-      if defined?(JRuby)
-        Excon.defaults[:ciphers] = 'DEFAULT'
-      end
       @connection
     end
 
@@ -52,7 +52,7 @@ module WssAgent
 
     def check_policies(gem_list, options = {})
       request_options =
-        if WssAgent::Configure['force_check_all_dependencies'] || options['force']
+        if Configure['force_check_all_dependencies'] || options['force']
           { type: POLICY_TYPES[:compliance], forceCheckAllDependencies: true }
         else
           { type: POLICY_TYPES[:basic], forceCheckAllDependencies: false }
@@ -64,7 +64,7 @@ module WssAgent
     def request(gem_list, options = {})
       WssAgent.logger.debug "request params: #{payload(gem_list, options)}"
 
-      connection.post(WssAgent::Configure.api_path, payload(gem_list, options))
+      connection.post(Configure.api_path, payload(gem_list, options))
     rescue Faraday::Error::ClientError => ex
       ex
     end
@@ -74,18 +74,16 @@ module WssAgent
     def connection_options
       @connection_options ||
         begin
-
           @connection_options = {
-            url: Configure.url,
-            request: { timeout: REQUEST_TIMEOUT }
+            url: Configure.url, request: { timeout: REQUEST_TIMEOUT }
           }
-          if Configure.ssl?
-            @connection_options[:ssl] = {
-              ca_file: WssAgent::DEFAULT_CA_BUNDLE_PATH
-            }
-          end
+          @connection_options[:ssl] = ssl_options if Configure.ssl?
         end
       @connection_options
+    end
+
+    def ssl_options
+      { ca_file: WssAgent::DEFAULT_CA_BUNDLE_PATH }
     end
   end
 end

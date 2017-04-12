@@ -28,7 +28,7 @@ module WssAgent
             'List of violations:'
           ]
           @message << policy_violations.each_with_index.map { |j, i|
-            "#{i+1}. Package: #{j['resource']['displayName']} - #{j['policy']['displayName']}"
+            "#{i + 1}. Package: #{j['resource']['displayName']} - #{j['policy']['displayName']}"
           }.join("\n")
           @message.join("\n")
         else

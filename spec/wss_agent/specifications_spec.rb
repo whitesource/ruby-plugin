@@ -18,6 +18,7 @@ describe WssAgent::Specifications, vcr: true do
       }
     ]
   }
+  let(:default_config) { WssAgent::Configure.default }
 
   describe '.check_policies' do
     let(:success_response) {
@@ -67,12 +68,10 @@ describe WssAgent::Specifications, vcr: true do
     end
 
     context 'when check_policies is true' do
-
-      before {
+      before do
         allow(WssAgent::Client).to receive(:new).and_return(wss_client)
-        allow(WssAgent::Configure).to receive(:current)
-                                       .and_return(WssAgent::Configure.default.merge({'check_policies' => true}))
-      }
+        allow(WssAgent::Configure).to receive(:current).and_return(default_config.merge('check_policies' => true))
+      end
       context 'and check policies return a violation' do
         it 'should not update inventory' do
           allow(policy_success_response).to receive(:policy_violations?).and_return(true)
@@ -80,6 +79,25 @@ describe WssAgent::Specifications, vcr: true do
           expect(wss_client).to_not receive(:update)
           res = WssAgent::Specifications.update
           expect(res.success?).to be false
+        end
+        context 'and force_update set true' do
+          before do
+            allow(WssAgent::Client).to receive(:new).and_return(wss_client)
+            allow(WssAgent::Configure).to receive(:current).and_return(
+                                            default_config.merge(
+                                              'check_policies' => true,
+                                              'force_update' => true
+                                            )
+                                          )
+          end
+          it 'should be update if update_force is true' do
+            allow(WssAgent::Specifications).to receive(:list).and_return(gem_list)
+            allow(policy_success_response).to receive(:policy_violations?).and_return(true)
+            expect(wss_client).to receive(:check_policies).and_return(policy_success_response)
+            expect(wss_client).to receive(:update).and_return(success_response)
+            res = WssAgent::Specifications.update
+            expect(res.success?).to be_truthy
+          end
         end
       end
 
@@ -100,7 +118,7 @@ describe WssAgent::Specifications, vcr: true do
       before {
         allow(WssAgent::Client).to receive(:new).and_return(wss_client)
         allow(WssAgent::Configure).to receive(:current)
-                                       .and_return(WssAgent::Configure.default.merge({'check_policies' => false}))
+                                       .and_return(default_config.merge({'check_policies' => false}))
       }
       it 'should update inventory' do
         allow(WssAgent::Specifications).to receive(:list).and_return(gem_list)
