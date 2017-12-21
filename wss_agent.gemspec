@@ -1,4 +1,3 @@
-# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'wss_agent/version'
@@ -18,22 +17,22 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.executables   = %w(wss_agent)
+  spec.executables   = %w[wss_agent]
   spec.add_development_dependency 'bundler', '~> 1.7'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'pry', '~> 0.10.4'
+  spec.add_development_dependency 'pry', '~> 0.11.3'
+  spec.add_development_dependency 'rake', '~> 12.3'
   spec.add_development_dependency 'rspec', '~> 3.5'
-  spec.add_development_dependency 'webmock', '~> 2.1'
-  spec.add_development_dependency 'timecop', '~> 0.8.1'
-  spec.add_development_dependency 'yard', '~> 0.8'
-  spec.add_development_dependency 'vcr', '~> 3.0', '>= 3.0.3'
+  spec.add_development_dependency 'timecop', '~> 0.9.1'
+  spec.add_development_dependency 'vcr', '~> 4.0'
+  spec.add_development_dependency 'webmock', '~> 3.1'
+  spec.add_development_dependency 'yard', '~> 0.9', '~> 0.9.12'
 
-  spec.add_dependency 'thor', '~> 0.19', '>= 0.19.1'
-  spec.add_dependency 'yell', '~> 2.0', '>= 2.0.5'
+  spec.add_dependency 'awesome_print', '~> 1.6', '>= 1.6.1'
   spec.add_dependency 'excon', '~> 0.45'
   spec.add_dependency 'faraday', '~> 0.12'
-  spec.add_dependency 'faraday_middleware', '~> 0.11.0.1'
-  spec.add_dependency 'awesome_print', '~> 1.6', '>= 1.6.1'
+  spec.add_dependency 'faraday_middleware', '~> 0.12'
   spec.add_dependency 'multi_json', '~> 1.12', '>= 1.12.1'
-  spec.add_dependency 'psych', '~> 2.2', '>= 2.2.4'
+  spec.add_dependency 'psych', '~> 3.0'
+  spec.add_dependency 'thor', '~> 0.19', '>= 0.19.1'
+  spec.add_dependency 'yell', '~> 2.0', '>= 2.0.5'
 end

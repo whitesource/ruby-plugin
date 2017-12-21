@@ -54,7 +54,6 @@ module WssAgent
           raise ApiUrlNotFound, WssAgentError::CANNOT_FIND_URL
         end
         URI(@url)
-
       rescue URI::Error
         raise ApiUrlInvalid, WssAgentError::URL_INVALID
       end
