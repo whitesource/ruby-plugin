@@ -1,6 +1,5 @@
 module WssAgent
   class ResponseInventory < Response
-
     def message
       if success?
         @message = "White Source update results: \n"
