@@ -124,6 +124,26 @@ describe WssAgent::Configure do
     end
   end
 
+  describe '.user_key' do
+    context 'when user_key is not exist' do
+      it 'should return empty string' do
+        expect(WssAgent::Configure.user_key).to eq('')
+      end
+      it { expect(WssAgent::Configure.user_key?).to be_falsey }
+    end
+    context 'when user_key is exist' do
+      before do
+        allow(WssAgent::Configure).to receive_messages(user_key: '11111111')
+      end
+
+      it 'should return user_key' do
+        expect(WssAgent::Configure.user_key).to eq('11111111')
+      end
+
+      it { expect(WssAgent::Configure.user_key?).to be_truthy }
+    end
+  end
+
   describe '.agent' do
     it 'should be "bundler-plugin"' do
       expect(WssAgent::Configure['agent']).to eq('bundler-plugin')

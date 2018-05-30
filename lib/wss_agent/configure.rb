@@ -86,6 +86,14 @@ module WssAgent
         end
       end
 
+      def user_key
+        current['user_key'].to_s.strip
+      end
+
+      def user_key?
+        !user_key.empty?
+      end
+
       def project_meta
         @project_meta ||= WssAgent::Project.new
       end

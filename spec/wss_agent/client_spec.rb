@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe WssAgent::Client, vcr: true  do
+  let(:user_key){ '9ec685d4f32843c2b963e3556256489e273cb1a122f948ba93463ffba6f1ed8c' }
   let(:bad_request_response) {
     {"envelopeVersion"=>"2.1.0", "status"=>2, "message"=>"Illegal arguments", "data"=>"Unsupported agent: null"}
   }
@@ -19,20 +20,33 @@ describe WssAgent::Client, vcr: true  do
 
 
   describe '#payload' do
+    let(:payload) {
+      {
+        agent: "bundler-plugin",
+        agentVersion: "1.0",
+        token: "xxxxxx",
+        product: "",
+        productVersion: "",
+        diff: "[{\"coordinates\":{\"artifactId\":\"wss_agent\",\"version\":\"#{WssAgent::VERSION}\"},\"dependencies\":{}}]",
 
-    it 'should return request params' do
+      }
+
+    }
+    it 'should return request params with userKey' do
+      allow(WssAgent::Configure).to receive_messages(user_key: user_key)
       Timecop.freeze(Time.now) do
-        payload = {
-          agent: "bundler-plugin",
-          agentVersion: "1.0",
-          token: "xxxxxx",
-          product: "",
-          productVersion: "",
+        payload_params = payload.merge(
           timeStamp: Time.now.to_i,
-          diff: "[{\"coordinates\":{\"artifactId\":\"wss_agent\",\"version\":\"#{WssAgent::VERSION}\"},\"dependencies\":{}}]"
-        }
+          userKey: user_key
+        )
 
-        expect(wss_client.payload({})).to eq(payload)
+        expect(wss_client.payload({})).to eq(payload_params)
+      end
+    end
+    it 'should return request params without userKey' do
+      Timecop.freeze(Time.now) do
+        payload_params = payload.merge(timeStamp: Time.now.to_i)
+        expect(wss_client.payload({})).to eq(payload_params)
       end
     end
   end

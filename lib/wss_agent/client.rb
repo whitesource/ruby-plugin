@@ -35,7 +35,7 @@ module WssAgent
     end
 
     def payload(gem_list, options = {})
-      {
+      req_options = {
         agent: Configure['agent'],
         agentVersion: Configure['agent_version'],
         token: Configure.token,
@@ -43,7 +43,9 @@ module WssAgent
         productVersion: Configure['product_version'].to_s,
         timeStamp: Time.now.to_i,
         diff: diff(gem_list)
-      }.merge(options)
+      }
+      req_options[:userKey] = Configure.user_key if Configure.user_key?
+      req_options.merge(options)
     end
 
     def update(gem_list)
