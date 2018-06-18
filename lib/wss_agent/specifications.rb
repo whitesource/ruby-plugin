@@ -14,7 +14,12 @@ module WssAgent
           Bundler.default_gemfile,
           Bundler.default_lockfile,
           false
-        ).specs.to_a
+        )
+        list_gems = list_gems.resolve.materialize(
+          list_gems.send(
+            Bundler.settings[:cache_all_platforms] ? :dependencies :  :requested_dependencies
+          )
+        )
         if options['all']
           # get all gems
           list = {}
