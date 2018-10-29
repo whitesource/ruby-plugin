@@ -10,6 +10,9 @@ module WssAgent
 
     UPDATE_TYPE = 'UPDATE'.freeze
     REQUEST_TIMEOUT = 120
+    RECONNECT_RETRIES = 1
+    RECONNECT_INTERVAL = 3
+
 
     def initialize
       @connection ||= Faraday.new(connection_options) do |h|
@@ -66,9 +69,23 @@ module WssAgent
     def request(gem_list, options = {})
       WssAgent.logger.debug "request params: #{payload(gem_list, options)}"
 
-      connection.post(Configure.api_path, payload(gem_list, options))
-    rescue Faraday::Error::ClientError => ex
-      ex
+      retries = Configure['retries'] ? Configure['retries'] : RECONNECT_RETRIES
+      interval = Configure['interval']? Configure['interval'] : RECONNECT_INTERVAL
+
+      while(retries > 0)
+        begin
+          return connection.post(Configure.api_path, payload(gem_list, options))
+        rescue Faraday::Error::ClientError => ex
+          retries = retries - 1
+          WssAgent.logger.error "Failed to send request to WhiteSource server: #{ex}"
+          if(retries > 0)
+            WssAgent.logger.error "Trying to connect to WhiteSource server again. sleeping #{interval} seconds..."
+            sleep(interval)
+          else
+            return ex
+          end
+        end
+      end
     end
 
     private

@@ -7,6 +7,8 @@ agent: bundler-plugin
 agent_version: '1.0'
 product: ''
 product_version: ''
+retries:
+interval:
 coordinates:
   artifact_id: ''
   version: ''
