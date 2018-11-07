@@ -72,13 +72,13 @@ module WssAgent
       retries = Configure['retries'] ? Configure['retries'] : RECONNECT_RETRIES
       interval = Configure['interval']? Configure['interval'] : RECONNECT_INTERVAL
 
-      while(retries > 0)
+      while retries > 0
         begin
           return connection.post(Configure.api_path, payload(gem_list, options))
         rescue Faraday::Error::ClientError => ex
           retries = retries - 1
           WssAgent.logger.error "Failed to send request to WhiteSource server: #{ex}"
-          if(retries > 0)
+          if retries > 0
             WssAgent.logger.error "Trying to connect to WhiteSource server again. sleeping #{interval} seconds..."
             sleep(interval)
           else
